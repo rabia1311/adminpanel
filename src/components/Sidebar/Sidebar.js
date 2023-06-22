@@ -5,6 +5,8 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import CategoryIcon from '@mui/icons-material/Category';
+import RamenDiningIcon from '@mui/icons-material/RamenDining';
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
@@ -31,6 +33,14 @@ const Sidebar = () => {
                 <RestaurantMenuIcon className='icons'/>
                     <span> Restuarants</span>
                 </li>
+                <li onClick={() => navigate("/restuarants")}>
+                <CategoryIcon className='icons'/>
+                    <span>Category List</span>
+                </li>
+                <li onClick={() => navigate("/restuarants")}>
+                <RamenDiningIcon className='icons'/>
+                    <span> Food item list </span>
+                </li>
                 <br/>
                 <p className='title'>SERVICE</p>
                 <li onClick={() => navigate("/order")}>
@@ -40,12 +50,12 @@ const Sidebar = () => {
                 <br/>
                 <p className='title'>USER</p>
                 
-                <li>
+                <li  onClick={() => navigate("/profile")}>
                 < AccountCircleIcon className='icons'/>
                     <span>  Profile</span>
                 </li>
                 <br/>
-                <li>
+                <li   onClick={() => navigate("/")}>
                 <ExitToAppIcon className='icons'/>
                     <span>Exit</span>
                 </li>
