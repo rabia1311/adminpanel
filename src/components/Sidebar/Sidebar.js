@@ -5,7 +5,10 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import { useNavigate } from "react-router-dom";
+
 const Sidebar = () => {
+    const navigate = useNavigate();
   return (
     <div className='Sidebar'>
         <div className='top'>
@@ -24,16 +27,16 @@ const Sidebar = () => {
                
                 <br/>
                 <p className='title'>LISTS</p>
-                <li>
+                <li onClick={() => navigate("/restuarants")}>
                 <RestaurantMenuIcon className='icons'/>
                     <span> Restuarants</span>
                 </li>
                 <br/>
                 <p className='title'>SERVICE</p>
-                <li>
-                <ListAltIcon className='icons'/>
-                    <span> Orders</span>
-                </li>
+                <li onClick={() => navigate("/order")}>
+  <ListAltIcon className='icons' />
+  <span> Orders</span>
+</li>
                 <br/>
                 <p className='title'>USER</p>
                 

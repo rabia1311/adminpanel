@@ -8,7 +8,7 @@ const Login = () => {
 
   const handleLogin = () => {
     
-    navigate('/admin/dashboard');
+    navigate('/home');
   };
   return (
     <div className='cover'><h1> Admin Panel Login</h1>
