@@ -33,11 +33,11 @@ const Sidebar = () => {
                 <RestaurantMenuIcon className='icons'/>
                     <span> Restuarants</span>
                 </li>
-                <li onClick={() => navigate("/restuarants")}>
+                <li onClick={() => navigate("/cat")}>
                 <CategoryIcon className='icons'/>
                     <span>Category List</span>
                 </li>
-                <li onClick={() => navigate("/restuarants")}>
+                <li onClick={() => navigate("/item")}>
                 <RamenDiningIcon className='icons'/>
                     <span> Food item list </span>
                 </li>
