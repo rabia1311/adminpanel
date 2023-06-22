@@ -115,7 +115,7 @@ const rows=[
                 <span className={`status ${row.status}`}>{row.status}</span>
               </TableCell>
               <TableCell align="right">
-                <button>Edit</button>
+               
                 <button>Delete</button>
               </TableCell>
             </TableRow>

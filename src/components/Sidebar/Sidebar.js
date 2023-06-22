@@ -19,7 +19,7 @@ const Sidebar = () => {
         <div className='center'>
 
             <ul>
-                <li>
+                <li onClick={() => navigate("/home")}>
               
                 <DashboardIcon className='icons'/>
                     <span> Dashboard</span>
