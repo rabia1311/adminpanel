@@ -50,3 +50,50 @@ outline-color: deepskyblue;
 }
 
 .login:hover{transform: scale(1.25);}
+.container {
+    background-color: #f44336; /* Set the background color */
+    padding: 20px; /* Add padding to the container */
+  }
+  
+  .signup-heading {
+    font-weight: bold; /* Make the heading bold */
+    color: red; /* Set the text color */
+    margin-bottom: 20px; /* Add margin at the bottom */
+  }
+  
+  .form-wrapper {
+    background-color: white; /* Set the background color of the form wrapper */
+    padding: 20px; /* Add padding to the form wrapper */
+  }
+  
+  .form-group {
+    margin-bottom: 20px; /* Add margin at the bottom of each form group */
+  }
+  
+  .form-label {
+    display: block; /* Make the labels block elements */
+    margin-bottom: 5px; /* Add margin at the bottom of each label */
+    font-weight: bold; /* Make the labels bold */
+  }
+  
+  .form-control {
+    width: 50%; /* Set the width of the form controls to 100% */
+    padding: 10px; /* Add padding to the form controls */
+    border: 1px solid #ccc; /* Add a border to the form controls */
+    border-radius: 4px; /* Add border radius to the form controls */
+  }
+  
+  .btn {
+    padding: 10px 20px; /* Add padding to the buttons */
+    border-radius: 4px; /* Add border radius to the buttons */
+    color: white; /* Set the text color of the buttons */
+  }
+  
+  .btn-success {
+    background-color: #4caf50; /* Set the background color of the success button */
+  }
+  
+  .btn-danger {
+    background-color: #f44336; /* Set the background color of the danger button */
+  }
+  
