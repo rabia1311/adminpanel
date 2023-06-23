@@ -1,27 +1,29 @@
-const express = require('express');
-const cors = require('cors');
-const multer= require('multer');
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+
+const UserRouter = require("./Routes/Createuser");
+const RestaurantRouter = require("./Routes/Addrestuarant");
+
 const app = express();
 const port = 3001;
-
-
-
-
-
-
 
 const mongoDB = require("./db");
 mongoDB();
 
 app.use(cors());
 
-app.use(express.json());
-app.use('/admin', require("./Routes/Createuser"));
-app.use('/admin', require("./Routes/Addrestuarant"));
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-});
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+    limit: "50mb",
+    parameterLimit: 50000,
+  })
+);
+app.use("/admin", UserRouter);
+app.use("/admin", RestaurantRouter);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Example app listening on port ${port}`);
 });
