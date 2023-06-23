@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 
 const UserRouter = require("./Routes/Createuser");
 const RestaurantRouter = require("./Routes/Addrestuarant");
+const CategoryRouter = require("./Routes/AddCategory");
 
 const app = express();
 const port = 3001;
@@ -23,6 +24,7 @@ app.use(
 );
 app.use("/admin", UserRouter);
 app.use("/admin", RestaurantRouter);
+app.use("/admin", CategoryRouter);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
