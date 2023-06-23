@@ -34,6 +34,11 @@ const Login = () => {
     const onChange = (event) => {
       setCredentials({ ...credentials, [event.target.name]: event.target.value });
     };
+
+
+    const handleButtonClick = () => {
+      navigate('/home');
+    };
   
   return (
     <>
@@ -57,7 +62,9 @@ const Login = () => {
           </div>
          
 
-          <button type="submit" className="m-3 btn btn-success">Submit</button>
+          <button type="submit" className="m-3 btn btn-success" onClick={handleButtonClick}>
+      Submit
+    </button>
           <Link to="/signup" className='m-3 btn btn-danger'> I am a new  User</Link>
         </form>
         <ToastContainer/>
@@ -67,4 +74,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Login;

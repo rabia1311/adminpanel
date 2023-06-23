@@ -74,7 +74,7 @@ const handleUserClose = () => setUseropen(false);
           </Typography>
           <form onSubmit={handleSubmit}>
             <TextField
-              label="Restaurant Name"
+              label=" Restaurant_name"
               variant="outlined"
               fullWidth
               margin="normal"
@@ -89,7 +89,7 @@ const handleUserClose = () => setUseropen(false);
             />
            
             <TextField
-              label="Delivery Time"
+              label="DeliveryTime"
               variant="outlined"
               fullWidth
               margin="normal"
@@ -105,7 +105,7 @@ const handleUserClose = () => setUseropen(false);
               required
             />
             <TextField
-              label="Restaurant Address"
+              label="Restaurant_Address"
               variant="outlined"
               fullWidth
               margin="normal"
