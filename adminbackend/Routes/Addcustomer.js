@@ -3,7 +3,7 @@ const multer = require("multer");
 const router = express.Router();
 //storage
 const Storage = multer.diskStorage({
-  destination: "category/",
+  destination: "CustomerImg/",
   filename: (req, file, cb) => {
     cb(null, file.originalname);
   },
@@ -11,8 +11,8 @@ const Storage = multer.diskStorage({
 const upload = multer({
   storage: Storage,
 });
-const { createCategory } = require("../controllers/category.controller");
+const { createCustomer } = require("../controllers/customer.controller");
 
-router.post("/category", upload.single("image"), createCategory);
+router.post("/customer", upload.single("image"), createCustomer);
 
 module.exports = router;

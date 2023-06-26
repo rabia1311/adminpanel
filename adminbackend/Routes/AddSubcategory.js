@@ -3,16 +3,18 @@ const multer = require("multer");
 const router = express.Router();
 //storage
 const Storage = multer.diskStorage({
-  destination: "category/",
+  destination: "subcategoryimg/",
   filename: (req, file, cb) => {
     cb(null, file.originalname);
   },
 });
+
 const upload = multer({
   storage: Storage,
 });
-const { createCategory } = require("../controllers/category.controller");
 
-router.post("/category", upload.single("image"), createCategory);
+const { createSubcategory } = require("../controllers/subcategory.controller");
+
+router.post("/subcategory", upload.single("image"), createSubcategory);
 
 module.exports = router;

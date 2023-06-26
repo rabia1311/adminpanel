@@ -1,30 +1,30 @@
-const Category = require("../Models/Category");
-const createCategory = async (req, res) => {
+const Customer = require("../Models/Customer");
+const createCustomer = async (req, res) => {
   try {
     const image = req.file.filename;
 
-    const newCategory = new Category({
+    const newCustomer = new Customer({
       ...req.body,
       image,
     });
 
     // Save the new restaurant to the database
-    const savedCategory = await newCategory.save();
+    const savedCustomer = await newCustomer.save();
 
     // Send a response back to the frontend indicating the success of the operation
     res.status(201).json({
       success: true,
-      message: "Category  added successfully.",
-      data: savedCategory,
+      message: "The user  added successfully.",
+      data: savedCustomer,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: "An error occurred while adding the category.",
+      error: "An error occurred while adding the user.",
     });
   }
 };
 
 module.exports = {
-  createCategory,
+  createCustomer,
 };
