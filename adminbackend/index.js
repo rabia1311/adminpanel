@@ -12,6 +12,7 @@ const app = express();
 const port = 3001;
 
 const mongoDB = require("./db");
+const { collection } = require("./Models/User");
 mongoDB();
 
 app.use(cors());

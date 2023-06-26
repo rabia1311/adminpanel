@@ -1,11 +1,11 @@
 const Customer = require("../Models/Customer");
 const createCustomer = async (req, res) => {
   try {
-    const image = req.file.filename;
+    // const image = req.file.filename;
 
     const newCustomer = new Customer({
       ...req.body,
-      image,
+      // image,
     });
 
     // Save the new restaurant to the database
@@ -18,9 +18,9 @@ const createCustomer = async (req, res) => {
       data: savedCustomer,
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(400).json({
       success: false,
-      error: "An error occurred while adding the user.",
+      error: error,
     });
   }
 };

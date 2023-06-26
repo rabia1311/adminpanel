@@ -9,11 +9,11 @@ const customerSchema = new mongoose.Schema({
     required: true,
   },
   ID: {
-    type: Number,
+    type: String,
     required: true,
   },
   phone: {
-    type: Number,
+    type: String,
     required: true,
   },
   address: {
