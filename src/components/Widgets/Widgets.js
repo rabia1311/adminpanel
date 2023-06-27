@@ -26,11 +26,6 @@ const Widgets = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Add your logic to handle form submission here
-  };
-
   const [catopen, setCatopen] = React.useState(false);
   const handleCatOpen = () => setCatopen(true);
   const handleCatClose = () => setCatopen(false);
@@ -50,25 +45,23 @@ const Widgets = () => {
     ID: "",
     phone: "",
     address: "",
-    // image: "",
+    image: "",
   });
 
   const handleUserSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("image", selectedFile);
+    formData.append("name", credentials.name);
+    formData.append("email", credentials.email);
+    formData.append("ID", credentials.ID);
+    formData.append("phone", credentials.phone);
+    formData.append("address", credentials.address);
+
     const response = await fetch("http://localhost:3001/admin/customer", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: credentials.name,
-        email: credentials.email,
-        phone: credentials.phone,
-        ID: credentials.ID,
 
-        address: credentials.address,
-        //  image: credentials.image,
-      }),
+      body: formData,
     });
 
     const json = await response.json(); // Await the response.json() method
@@ -94,31 +87,29 @@ const Widgets = () => {
     Itemprice: "",
     Discount: "",
     numberQ: "",
-    // image: "",
+    image: "",
   });
 
   const handleSubCategorySubmit = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("Itemcategory", subcredentials.Itemcategory);
+    formData.append("Itemname", subcredentials.Itemname);
+    formData.append("Itemprice", subcredentials.Itemprice);
+    formData.append("Discount", subcredentials.Discount);
+    formData.append("numberQ", subcredentials.numberQ);
+    formData.append("image", selectedFile);
+
     try {
       const response = await fetch("http://localhost:3001/admin/subcategory", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          Itemcategory: subcredentials.Itemcategory,
-          Itemname: subcredentials.Itemname,
-          Itemprice: subcredentials.Itemprice,
-          Discount: subcredentials.Discount,
-          numberQ: subcredentials.numberQ,
-
-          image: subcredentials.image,
-        }),
+        body: formData,
       });
 
-      const json = await response.json(); // Await the response.json() method
-
+      const json = await response.json();
       console.log(json);
+
       if (!json.success) {
         toast.error("Enter valid credentials");
       } else {
@@ -144,32 +135,29 @@ const Widgets = () => {
     CategoryName: "",
     Description: "",
 
-    // image: "",
+    image: "",
   });
 
   const handleCatSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("CategoryType", catcredentials.CategoryType);
+    formData.append("CategoryName", catcredentials.CategoryName);
+    formData.append("Description", catcredentials.Description);
+    formData.append("image", selectedFile);
+
     try {
       const response = await fetch("http://localhost:3001/admin/category", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          CategoryType: catcredentials.CategoryType,
-          CategoryName: catcredentials.CategoryType,
-          Description: catcredentials.Description,
-          image: catcredentials.image,
-        }),
+        body: formData,
       });
 
-      const json = await response.json(); // Await the response.json() method
-
+      const json = await response.json();
       console.log(json);
       if (!json.success) {
         toast.error("Enter valid credentials");
       } else {
-        toast.success("category added successfully");
+        toast.success("Category added successfully");
       }
     } catch (error) {
       console.log(error);
@@ -198,23 +186,22 @@ const Widgets = () => {
 
   const handleResSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("image", selectedFile);
+    formData.append("Restaurant_name", rescredentials.Restaurant_name);
+    formData.append("Category", rescredentials.Category);
+    formData.append("DeliveryTime", rescredentials.DeliveryTime);
+    formData.append("Description", rescredentials.Description);
+    formData.append("Restaurant_Address", rescredentials.Restaurant_Address);
+
     try {
       const response = await fetch("http://localhost:3001/admin/restaurant", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          Restaurant_name: rescredentials.Restaurant_name,
-          Category: rescredentials.Category,
-          DeliveryTime: rescredentials.DeliveryTime,
-          Description: rescredentials.Description,
-          Restaurant_Address: rescredentials.Restaurant_Address,
-          image: rescredentials.image,
-        }),
+
+        body: formData,
       });
 
-      const json = await response.json(); // Await the response.json() method
+      const json = await response.json();
 
       console.log(json);
       if (!json.success) {
@@ -234,6 +221,15 @@ const Widgets = () => {
     });
   };
   console.log(rescredentials);
+
+  //for image upload the code is ..............
+
+  const [selectedFile, setSelectedFile] = useState(null);
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
+  console.log(selectedFile);
 
   return (
     <div className="widget-container">
@@ -308,7 +304,7 @@ const Widgets = () => {
               label="Logo"
               name="image"
               value={rescredentials.image}
-              onChange={handleResChange}
+              onChange={handleFileChange} //changes made
               variant="outlined"
               fullWidth
               margin="normal"
@@ -376,8 +372,8 @@ const Widgets = () => {
             <TextField
               label="Logo"
               name="image"
-              value={catcredentials.image}
-              onChange={handleCatChange}
+              value={rescredentials.image}
+              onChange={handleFileChange} //changes made
               variant="outlined"
               fullWidth
               margin="normal"
@@ -456,11 +452,11 @@ const Widgets = () => {
               required
             />
             <TextField
-              label="Item Image"
-              variant="outlined"
+              label="Logo"
               name="image"
-              value={subcredentials.image}
-              onChange={handleSubChange}
+              value={rescredentials.image}
+              onChange={handleFileChange} //changes made
+              variant="outlined"
               fullWidth
               margin="normal"
               type="file"
@@ -539,10 +535,10 @@ const Widgets = () => {
               required
             />
             <TextField
-              label="Profile Image"
-              value={credentials.image}
+              label="Logo"
               name="image"
-              onChange={handleChange}
+              value={rescredentials.image}
+              onChange={handleFileChange} //changes made
               variant="outlined"
               fullWidth
               margin="normal"
