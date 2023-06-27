@@ -2,7 +2,7 @@ const Restaurant = require("../Models/Restuarant");
 
 const createRestaurant = async (req, res) => {
   try {
-    const image = req.file.filename;
+    const image = req.file?.filename;
     // const {
     //   Restaurant_name,
     //   Category,
@@ -28,7 +28,7 @@ const createRestaurant = async (req, res) => {
       data: savedRestaurant,
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(400).json({
       success: false,
       error: "An error occurred while adding the restaurant.",
     });

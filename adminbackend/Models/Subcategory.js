@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
 const subcategorySchema = new mongoose.Schema({
+  Itemcategory: {
+    type: String,
+    required: true,
+  },
   Itemname: {
     type: String,
     required: true,
@@ -13,7 +17,7 @@ const subcategorySchema = new mongoose.Schema({
     required: true,
   },
   numberQ: {
-    type: Number,
+    type: String,
     required: true,
   },
   image: {

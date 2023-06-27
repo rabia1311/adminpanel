@@ -10,7 +10,7 @@ const restaurantSchema = new mongoose.Schema({
     required: true,
   },
   DeliveryTime: {
-    type: Number,
+    type: String,
     required: true,
   },
   Description: {

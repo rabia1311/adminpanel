@@ -1,7 +1,7 @@
 const Category = require("../Models/Category");
 const createCategory = async (req, res) => {
   try {
-    const image = req.file.filename;
+    const image = req.file?.filename;
 
     const newCategory = new Category({
       ...req.body,
@@ -18,7 +18,7 @@ const createCategory = async (req, res) => {
       data: savedCategory,
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(400).json({
       success: false,
       error: "An error occurred while adding the category.",
     });

@@ -1,7 +1,7 @@
 const Subcategory = require("../Models/Subcategory");
 const createSubcategory = async (req, res) => {
   try {
-    const image = req.file.filename;
+    const image = req.file?.filename;
 
     const newSubcategory = new Subcategory({
       ...req.body,
@@ -18,9 +18,10 @@ const createSubcategory = async (req, res) => {
       data: savedSubcategory,
     });
   } catch (error) {
-    res.status(500).json({
+    console.log(error);
+    res.status(400).json({
       success: false,
-      error: "An error occurred while adding the subcategory.",
+      error: error,
     });
   }
 };
