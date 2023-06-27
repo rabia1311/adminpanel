@@ -15,10 +15,11 @@ const upload = multer({
   storage: Storage,
 });
 
-// const upload = multer({ dest: "public/files" });
-
-const { createRestaurant } = require("../controllers/restaurant.controller");
+const {
+  createRestaurant,
+  getRestaurant,
+} = require("../controllers/restaurant.controller");
 
 router.post("/restaurant", upload.single("image"), createRestaurant);
-
+router.get("/restaurant", getRestaurant);
 module.exports = router;

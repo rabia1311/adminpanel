@@ -35,6 +35,16 @@ const createRestaurant = async (req, res) => {
   }
 };
 
+const getRestaurant = async (req, res) => {
+  try {
+    const restaurants = await Restaurant.find();
+    res.json(restaurants);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch restuarants" });
+  }
+};
+
 module.exports = {
   createRestaurant,
+  getRestaurant,
 };
