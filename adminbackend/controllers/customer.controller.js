@@ -24,7 +24,16 @@ const createCustomer = async (req, res) => {
     });
   }
 };
+const getCustomer = async (req, res) => {
+  try {
+    const customer = await Customer.find();
+    res.json(customer);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch User" });
+  }
+};
 
 module.exports = {
   createCustomer,
+  getCustomer,
 };

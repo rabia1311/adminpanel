@@ -15,6 +15,7 @@ const path = require("path");
 app.use("/uploads", express.static("uploads"));
 app.use("/category", express.static("category"));
 app.use("/subcategoryimg", express.static("subcategoryimg"));
+app.use("/customerImg", express.static("customerImg"));
 
 const mongoDB = require("./db");
 const { collection } = require("./Models/User");
