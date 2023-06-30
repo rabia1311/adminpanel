@@ -26,6 +26,16 @@ const createSubcategory = async (req, res) => {
   }
 };
 
+const getSubCategory = async (req, res) => {
+  try {
+    const subcategory = await Subcategory.find();
+    res.json(subcategory);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch subcategory" });
+  }
+};
+
 module.exports = {
   createSubcategory,
+  getSubCategory,
 };

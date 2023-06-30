@@ -13,8 +13,12 @@ const upload = multer({
   storage: Storage,
 });
 
-const { createSubcategory } = require("../controllers/subcategory.controller");
+const {
+  createSubcategory,
+  getSubCategory,
+} = require("../controllers/subcategory.controller");
 
 router.post("/subcategory", upload.single("image"), createSubcategory);
+router.get("/subcategory", getSubCategory);
 
 module.exports = router;
