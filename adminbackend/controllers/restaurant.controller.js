@@ -37,14 +37,39 @@ const createRestaurant = async (req, res) => {
 
 const getRestaurant = async (req, res) => {
   try {
-    const restaurants = await Restaurant.find();
+    const restaurants = await Restaurant.find(); // Retrieve plain JavaScript objects instead of Mongoose documents
+
     res.json(restaurants);
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch restuarants" });
+    res.status(500).json({ error: "Failed to fetch restaurants" });
   }
 };
+
+//delete
+
+const deleteRestaurant = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the restaurant by ID and delete it
+    const deletedRestaurant = await Restaurant.findByIdAndDelete(id);
+
+    if (!deletedRestaurant) {
+      return res.status(404).json({ error: "Restaurant not found" });
+    }
+
+    return res.json({ message: "Restaurant deleted successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "An error occurred while deleting the restaurant" });
+  }
+};
+
+//update
 
 module.exports = {
   createRestaurant,
   getRestaurant,
+  deleteRestaurant,
 };

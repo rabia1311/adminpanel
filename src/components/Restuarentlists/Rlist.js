@@ -10,7 +10,12 @@ import Paper from "@mui/material/Paper";
 
 const Rlist = () => {
   const [restuarant, setRestuarant] = useState([]);
+
   useEffect(() => {
+    fetchRestaurants();
+  }, []);
+
+  const fetchRestaurants = () => {
     fetch("http://localhost:3001/admin/restaurant")
       .then((response) => response.json())
       .then((data) => {
@@ -20,8 +25,21 @@ const Rlist = () => {
       .catch((error) => {
         console.error("Error:", error);
       });
-  }, []);
-  console.log(restuarant);
+  };
+
+  const handleDelete = (id) => {
+    fetch(`http://localhost:3001/admin/restaurant/${id}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data); // Log the response for demonstration purposes
+        fetchRestaurants(); // Fetch the updated list of restaurants after deletion
+      })
+      .catch((error) => {
+        console.error("Error deleting restaurant:", error);
+      });
+  };
 
   return (
     <div className="container">
@@ -41,30 +59,32 @@ const Rlist = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {restuarant.map((restuarant) => (
-              <TableRow key={restuarant._id}>
+            {restuarant.map((restaurant) => (
+              <TableRow key={restaurant._id}>
                 <TableCell component="th" scope="row">
-                  {restuarant._id}
+                  {restaurant._id}
                 </TableCell>
                 <TableCell align="right">
-                  {restuarant.Restaurant_name}
+                  {restaurant.Restaurant_name}
                 </TableCell>
-                <TableCell align="right">{restuarant.Category}</TableCell>
-                <TableCell align="right">{restuarant.DeliveryTime}</TableCell>
-                <TableCell align="right">{restuarant.Description}</TableCell>
+                <TableCell align="right">{restaurant.Category}</TableCell>
+                <TableCell align="right">{restaurant.DeliveryTime}</TableCell>
+                <TableCell align="right">{restaurant.Description}</TableCell>
                 <TableCell align="right">
-                  {restuarant.Restaurant_Address}
+                  {restaurant.Restaurant_Address}
                 </TableCell>
                 <TableCell align="right">
                   <img
-                    src={`http://localhost:3001/uploads/${restuarant.image}`}
+                    src={`http://localhost:3001/uploads/${restaurant.image}`}
                     alt="Restaurant"
                     className="image-thumbnail"
                   />
                 </TableCell>
                 <TableCell align="right">
                   <button>Edit</button>
-                  <button>Delete</button>
+                  <button onClick={() => handleDelete(restaurant._id)}>
+                    Delete
+                  </button>
                 </TableCell>
               </TableRow>
             ))}

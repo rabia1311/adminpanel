@@ -14,9 +14,11 @@ const upload = multer({
 const {
   createCategory,
   getCategory,
+  deleteRestaurant,
 } = require("../controllers/category.controller");
 
 router.post("/category", upload.single("image"), createCategory);
 router.get("/category", getCategory);
+router.delete("/category/:id", deleteRestaurant);
 
 module.exports = router;
