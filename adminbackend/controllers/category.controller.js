@@ -7,7 +7,6 @@ const createCategory = async (req, res) => {
       ...req.body,
       image,
     });
-
     // Save the new restaurant to the database
     const savedCategory = await newCategory.save();
 
@@ -24,7 +23,16 @@ const createCategory = async (req, res) => {
     });
   }
 };
+const getCategory = async (req, res) => {
+  try {
+    const category = await Category.find();
+    res.json(category);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch restuarants" });
+  }
+};
 
 module.exports = {
   createCategory,
+  getCategory,
 };

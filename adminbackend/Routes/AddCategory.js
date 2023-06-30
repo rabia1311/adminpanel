@@ -11,8 +11,12 @@ const Storage = multer.diskStorage({
 const upload = multer({
   storage: Storage,
 });
-const { createCategory } = require("../controllers/category.controller");
+const {
+  createCategory,
+  getCategory,
+} = require("../controllers/category.controller");
 
 router.post("/category", upload.single("image"), createCategory);
+router.get("/category", getCategory);
 
 module.exports = router;

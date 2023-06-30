@@ -1,23 +1,22 @@
-import React from 'react'
-import "../Category/category.scss"
-import "../Home/home.scss"
-import Sidebar from '../../components/Sidebar/Sidebar'
-import Navbar from '../../components/Navbar/Navbar'
+import React from "react";
+import "../Category/category.scss";
+import "../Home/home.scss";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import Navbar from "../../components/Navbar/Navbar";
+import Catlist from "../../components/Categorylist/Catlist";
 const Category = () => {
   return (
-    <div className='home'>
+    <div className="home">
+      <Sidebar />
 
-    <Sidebar/>
-    
-    <div className='home-container'>
-        <Navbar/>
-        <div className='Widgets'>
-
-    category lists are displayed 
+      <div className="home-container">
+        <Navbar />
+        <div className="Widgets">
+          <Catlist />
+        </div>
+      </div>
     </div>
-</div>
-</div>    
-  )
-}
+  );
+};
 
-export default Category
+export default Category;
