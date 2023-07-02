@@ -7,20 +7,39 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+
 const Customerlist = () => {
-  const [restuarant, setRestuarant] = useState([]);
+  const [customer, setCustomer] = useState([]);
+
   useEffect(() => {
+    fetchCustomers();
+  }, []);
+
+  const fetchCustomers = () => {
     fetch("http://localhost:3001/admin/customer")
       .then((response) => response.json())
       .then((data) => {
-        setRestuarant(data);
+        setCustomer(data);
         console.log(data);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-  }, []);
-  console.log(restuarant);
+  };
+
+  const handleDelete = (id) => {
+    fetch(`http://localhost:3001/admin/customerImg/${id}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        fetchCustomers();
+      })
+      .catch((error) => {
+        console.error("Error deleting customer:", error);
+      });
+  };
 
   return (
     <div className="container">
@@ -40,26 +59,28 @@ const Customerlist = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {restuarant.map((restuarant) => (
-              <TableRow key={restuarant._id}>
+            {customer.map((customer) => (
+              <TableRow key={customer._id}>
                 <TableCell component="th" scope="row">
-                  {restuarant._id}
+                  {customer._id}
                 </TableCell>
-                <TableCell align="right">{restuarant.name}</TableCell>
-                <TableCell align="right">{restuarant.email}</TableCell>
-                <TableCell align="right">{restuarant.ID}</TableCell>
-                <TableCell align="right">{restuarant.phone}</TableCell>
-                <TableCell align="right">{restuarant.address}</TableCell>
+                <TableCell align="right">{customer.name}</TableCell>
+                <TableCell align="right">{customer.email}</TableCell>
+                <TableCell align="right">{customer.ID}</TableCell>
+                <TableCell align="right">{customer.phone}</TableCell>
+                <TableCell align="right">{customer.address}</TableCell>
                 <TableCell align="right">
                   <img
-                    src={`http://localhost:3001/customerImg/${restuarant.image}`}
+                    src={`http://localhost:3001/customerImg/${customer.image}`}
                     alt="Restaurant"
                     className="image-thumbnail"
                   />
                 </TableCell>
                 <TableCell align="right">
                   <button>Edit</button>
-                  <button>Delete</button>
+                  <button onClick={() => handleDelete(customer._id)}>
+                    Delete
+                  </button>
                 </TableCell>
               </TableRow>
             ))}

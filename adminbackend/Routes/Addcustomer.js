@@ -14,8 +14,10 @@ const upload = multer({
 const {
   createCustomer,
   getCustomer,
+  deleteRestaurant,
 } = require("../controllers/customer.controller");
 
 router.post("/customer", upload.single("image"), createCustomer);
 router.get("/customer", getCustomer);
+router.delete("/customer/:id", deleteRestaurant);
 module.exports = router;

@@ -33,7 +33,27 @@ const getCustomer = async (req, res) => {
   }
 };
 
+const deleteRestaurant = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the restaurant by ID and delete it
+    const deletedRestaurant = await Customer.findByIdAndDelete(id);
+
+    if (!deletedRestaurant) {
+      return res.status(404).json({ error: "Restaurant not found" });
+    }
+
+    return res.json({ message: "SubCategory deleted successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "An error occurred while deleting the restaurant" });
+  }
+};
+
 module.exports = {
   createCustomer,
   getCustomer,
+  deleteRestaurant,
 };

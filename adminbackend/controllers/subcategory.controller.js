@@ -40,13 +40,13 @@ const deleteRestaurant = async (req, res) => {
     const { id } = req.params;
 
     // Find the restaurant by ID and delete it
-    const deletedRestaurant = await Restaurant.findByIdAndDelete(id);
+    const deletedRestaurant = await Subcategory.findByIdAndDelete(id);
 
     if (!deletedRestaurant) {
       return res.status(404).json({ error: "Restaurant not found" });
     }
 
-    return res.json({ message: "Restaurant deleted successfully" });
+    return res.json({ message: "SubCategory deleted successfully" });
   } catch (error) {
     return res
       .status(500)

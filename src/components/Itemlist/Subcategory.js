@@ -9,19 +9,37 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
 const Subcategory = () => {
-  const [restuarant, setRestuarant] = useState([]);
+  const [subcategory, setSubcategory] = useState([]);
+
   useEffect(() => {
+    fetchSubcategories();
+  }, []);
+
+  const fetchSubcategories = () => {
     fetch("http://localhost:3001/admin/subcategory")
       .then((response) => response.json())
       .then((data) => {
-        setRestuarant(data);
+        setSubcategory(data);
         console.log(data);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-  }, []);
-  console.log(restuarant);
+  };
+
+  const handleDelete = (id) => {
+    fetch(`http://localhost:3001/admin/subcategory/${id}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        fetchSubcategories();
+      })
+      .catch((error) => {
+        console.error("Error deleting subcategory:", error);
+      });
+  };
 
   return (
     <div className="container">
@@ -33,35 +51,34 @@ const Subcategory = () => {
               <TableCell>ID</TableCell>
               <TableCell align="right">Item Category</TableCell>
               <TableCell align="right">Item Name</TableCell>
-              <TableCell align="right">Item Price </TableCell>
-              <TableCell align="right">Discount </TableCell>
-
+              <TableCell align="right">Item Price</TableCell>
+              <TableCell align="right">Discount</TableCell>
               <TableCell align="right">Quantity</TableCell>
               <TableCell align="right">Image</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {restuarant.map((restuarant) => (
-              <TableRow key={restuarant._id}>
+            {subcategory.map((item) => (
+              <TableRow key={item._id}>
                 <TableCell component="th" scope="row">
-                  {restuarant._id}
+                  {item._id}
                 </TableCell>
-                <TableCell align="right">{restuarant.Itemcategory}</TableCell>
-                <TableCell align="right">{restuarant.Itemname}</TableCell>
-                <TableCell align="right">{restuarant.Itemprice}</TableCell>
-                <TableCell align="right">{restuarant.Discount}</TableCell>
-                <TableCell align="right">{restuarant.numberQ}</TableCell>
+                <TableCell align="right">{item.Itemcategory}</TableCell>
+                <TableCell align="right">{item.Itemname}</TableCell>
+                <TableCell align="right">{item.Itemprice}</TableCell>
+                <TableCell align="right">{item.Discount}</TableCell>
+                <TableCell align="right">{item.numberQ}</TableCell>
                 <TableCell align="right">
                   <img
-                    src={`http://localhost:3001/subcategoryimg/${restuarant.image}`}
+                    src={`http://localhost:3001/subcategoryimg/${item.image}`}
                     alt="Restaurant"
                     className="image-thumbnail"
                   />
                 </TableCell>
                 <TableCell align="right">
                   <button>Edit</button>
-                  <button>Delete</button>
+                  <button onClick={() => handleDelete(item._id)}>Delete</button>
                 </TableCell>
               </TableRow>
             ))}

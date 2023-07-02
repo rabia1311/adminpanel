@@ -7,20 +7,40 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+
 const Catlist = () => {
-  const [restuarant, setRestuarant] = useState([]);
+  const [category, setCategory] = useState([]);
+
   useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = () => {
     fetch("http://localhost:3001/admin/category")
       .then((response) => response.json())
       .then((data) => {
-        setRestuarant(data);
+        setCategory(data);
         console.log(data);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-  }, []);
-  console.log(restuarant);
+  };
+
+  const handleDelete = (id) => {
+    fetch(`http://localhost:3001/admin/category/${id}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        fetchCategories();
+      })
+      .catch((error) => {
+        console.error("Error deleting category:", error);
+      });
+  };
+
   return (
     <div className="container">
       <TableContainer className="tableContainer" component={Paper}>
@@ -37,25 +57,26 @@ const Catlist = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {restuarant.map((restuarant) => (
-              <TableRow key={restuarant._id}>
+            {category.map((category) => (
+              <TableRow key={category._id}>
                 <TableCell component="th" scope="row">
-                  {restuarant._id}
+                  {category._id}
                 </TableCell>
-                <TableCell align="right">{restuarant.CategoryType}</TableCell>
-                <TableCell align="right">{restuarant.CategoryName}</TableCell>
-                <TableCell align="right">{restuarant.Description}</TableCell>
-
+                <TableCell align="right">{category.CategoryType}</TableCell>
+                <TableCell align="right">{category.CategoryName}</TableCell>
+                <TableCell align="right">{category.Description}</TableCell>
                 <TableCell align="right">
                   <img
-                    src={`http://localhost:3001/category/${restuarant.image}`}
-                    alt="Restaurant"
+                    src={`http://localhost:3001/category/${category.image}`}
+                    alt="Category"
                     className="image-thumbnail"
                   />
                 </TableCell>
                 <TableCell align="right">
                   <button>Edit</button>
-                  <button>Delete</button>
+                  <button onClick={() => handleDelete(category._id)}>
+                    Delete
+                  </button>
                 </TableCell>
               </TableRow>
             ))}
