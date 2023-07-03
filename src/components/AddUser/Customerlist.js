@@ -42,7 +42,7 @@ const CustomerList = () => {
 
   return (
     <div className="container">
-      <h1 className="heading">List of Customers Enrolled</h1>
+      <h1 className="heading">List of Customers</h1>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -50,7 +50,6 @@ const CustomerList = () => {
               <TableCell>ID</TableCell>
               <TableCell align="right">Customer Name</TableCell>
               <TableCell align="right">Email</TableCell>
-              <TableCell align="right">ID</TableCell>
               <TableCell align="right">Phone</TableCell>
               <TableCell align="right">Address</TableCell>
               <TableCell align="right">Image</TableCell>
@@ -65,7 +64,6 @@ const CustomerList = () => {
                 </TableCell>
                 <TableCell align="right">{customer.name}</TableCell>
                 <TableCell align="right">{customer.email}</TableCell>
-                <TableCell align="right">{customer.ID}</TableCell>
                 <TableCell align="right">{customer.phone}</TableCell>
                 <TableCell align="right">{customer.address}</TableCell>
                 <TableCell align="right">
