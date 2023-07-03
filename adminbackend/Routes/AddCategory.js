@@ -27,6 +27,7 @@ router.delete("/category/:id", deleteRestaurant);
 
 router.put("/category/:id", upload.single("image"), (req, res, next) => {
   const categoryId = req.params.id;
+  console.log(categoryId);
   const { CategoryType, CategoryName, Description } = req.body;
 
   Category.findById(categoryId)
@@ -46,6 +47,7 @@ router.put("/category/:id", upload.single("image"), (req, res, next) => {
       return category.save();
     })
     .then((updatedCategory) => {
+      console.log(updatedCategory);
       res.status(200).json({ updated_category: updatedCategory });
     })
     .catch((err) => {
