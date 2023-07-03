@@ -19,10 +19,11 @@ const {
   createRestaurant,
   getRestaurant,
   deleteRestaurant,
+  updateRestaurant,
 } = require("../controllers/restaurant.controller");
 
 router.post("/restaurant", upload.single("image"), createRestaurant);
 router.get("/restaurant", getRestaurant);
 router.delete("/restaurant/:id", deleteRestaurant);
-
+router.put("/restaurant/:id", upload.single("image"), updateRestaurant);
 module.exports = router;

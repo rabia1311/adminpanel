@@ -68,8 +68,48 @@ const deleteRestaurant = async (req, res) => {
 
 //update
 
+const updateRestaurant = async (req, res, next) => {
+  const categoryId = req.params.id;
+  const {
+    Restaurant_name,
+    Category,
+    DeliveryTime,
+    Description,
+    Restaurant_Address,
+  } = req.body;
+
+  Restaurant.findById(categoryId)
+    .then((category) => {
+      if (!category) {
+        return res.status(404).json({ error: "Restaunrant not found" });
+      }
+
+      category.Restaurant_name = Restaurant_name;
+      category.Category = Category;
+      category.DeliveryTime = DeliveryTime;
+      category.Description = Description;
+      category.Restaurant_Address = Restaurant_Address;
+
+      if (req.file) {
+        category.image = req.file.filename;
+      }
+
+      return category.save();
+    })
+    .then((updatedCategory) => {
+      res.status(200).json({ updated_category: updatedCategory });
+    })
+    .catch((err) => {
+      console.log(err);
+      res
+        .status(500)
+        .json({ error: "An error occurred while updating the restaurant" });
+    });
+};
+
 module.exports = {
   createRestaurant,
   getRestaurant,
   deleteRestaurant,
+  updateRestaurant,
 };
