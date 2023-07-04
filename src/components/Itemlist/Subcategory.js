@@ -7,24 +7,109 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Subcategory = () => {
-  const [subcategory, setSubcategory] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [modalData, setModalData] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [catOpen, setCatOpen] = useState(false);
+
+  const [catCredentials, setCatCredentials] = useState({
+    category: {
+      Itemcategory: "",
+      Itemname: "",
+      Itemprice: "",
+      Discount: "",
+      numberQ: "",
+
+      image: "",
+    },
+  });
 
   useEffect(() => {
-    fetchSubcategories();
+    fetchCategories();
   }, []);
 
-  const fetchSubcategories = () => {
+  const fetchCategories = () => {
     fetch("http://localhost:3001/admin/subcategory")
       .then((response) => response.json())
       .then((data) => {
-        setSubcategory(data);
-        console.log(data);
+        setCategory(data);
+        // console.log(data);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
+  };
+
+  const fetchCategoryById = (id) => {
+    fetch(`http://localhost:3001/admin/subcategory/${id}`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log(data);
+        setModalData(data);
+        // console.log(data);
+        setModalOpen(true);
+        setCatCredentials(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  console.log(modalData);
+  console.log(catCredentials);
+
+  const handleModalSubmit = (e) => {
+    e.preventDefault();
+
+    const id = catCredentials.category._id;
+
+    const formData = new FormData();
+    formData.append("id", catCredentials.category._id);
+    formData.append("Itemcategory", catCredentials.category.Itemcategory);
+    formData.append("Itemname", catCredentials.category.Itemname);
+    formData.append("Itemprice", catCredentials.category.Itemprice);
+    formData.append("Discount", catCredentials.category.Discount);
+    formData.append("numberQ", catCredentials.category.numberQ);
+    formData.append("image", catCredentials.category.image);
+
+    fetch(`http://localhost:3001/admin/subcategory/${id}`, {
+      method: "PUT",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log(data);
+        fetchCategories();
+        resetForm();
+        handleCloseModal(); // Close the modal after successful update
+      })
+      .catch((error) => {
+        console.error("Error updating category:", error);
+      });
+  };
+
+  const resetForm = () => {
+    setCatCredentials({
+      category: {
+        Itemcategory: "",
+        Itemname: "",
+        Itemprice: "",
+        Discount: "",
+        numberQ: "",
+
+        image: "",
+      },
+    });
   };
 
   const handleDelete = (id) => {
@@ -33,58 +118,191 @@ const Subcategory = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        fetchSubcategories();
+        // console.log(data);
+        fetchCategories();
       })
       .catch((error) => {
-        console.error("Error deleting subcategory:", error);
+        console.error("Error deleting category:", error);
       });
   };
 
+  const handleUpdate = (id) => {
+    // console.log(id);
+    fetchCategoryById(id);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setModalData(null);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCatCredentials((prevCredentials) => ({
+      category: {
+        ...prevCredentials.category,
+        [name]: value,
+      },
+    }));
+  };
+
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+    setCatCredentials((prevCredentials) => ({
+      category: {
+        ...prevCredentials.category,
+        image: file,
+      },
+    }));
+  };
   return (
     <div className="container">
       <TableContainer className="tableContainer" component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
-            <h1 className="heading">List of Food Items </h1>
+            <h1 className="heading">List of Item</h1>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell align="right">Item Category</TableCell>
-              <TableCell align="right">Item Name</TableCell>
-              <TableCell align="right">Item Price</TableCell>
+              <TableCell align="right">Itemcategory</TableCell>
+              <TableCell align="right">Itemname</TableCell>
+              <TableCell align="right">Itemprice</TableCell>
               <TableCell align="right">Discount</TableCell>
-              <TableCell align="right">Quantity</TableCell>
+              <TableCell align="right">numberQ</TableCell>
               <TableCell align="right">Image</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {subcategory.map((item) => (
-              <TableRow key={item._id}>
+            {category.map((category) => (
+              <TableRow key={category._id}>
                 <TableCell component="th" scope="row">
-                  {item._id}
+                  {category._id}
                 </TableCell>
-                <TableCell align="right">{item.Itemcategory}</TableCell>
-                <TableCell align="right">{item.Itemname}</TableCell>
-                <TableCell align="right">{item.Itemprice}</TableCell>
-                <TableCell align="right">{item.Discount}</TableCell>
-                <TableCell align="right">{item.numberQ}</TableCell>
+                <TableCell align="right">{category.Itemcategory}</TableCell>
+                <TableCell align="right">{category.Itemname}</TableCell>
+                <TableCell align="right">{category.Itemprice}</TableCell>
+                <TableCell align="right">{category.Discount}</TableCell>
+                <TableCell align="right">{category.numberQ}</TableCell>
                 <TableCell align="right">
                   <img
-                    src={`http://localhost:3001/subcategoryimg/${item.image}`}
-                    alt="Restaurant"
+                    src={`http://localhost:3001/subcategoryimg/${category.image}`}
+                    alt="Category"
                     className="image-thumbnail"
                   />
                 </TableCell>
                 <TableCell align="right">
-                  <button>Edit</button>
-                  <button onClick={() => handleDelete(item._id)}>Delete</button>
+                  <Button onClick={() => handleUpdate(category._id)}>
+                    Edit
+                  </Button>
+                  <Button onClick={() => handleDelete(category._id)}>
+                    Delete
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Modal
+        open={modalOpen}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 800,
+            bgcolor: "background.paper",
+            border: "2px solid #000",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Edit Category
+          </Typography>
+          {modalData && (
+            <form onSubmit={handleModalSubmit}>
+              <TextField
+                label="Itemcategory"
+                name="Itemcategory"
+                value={catCredentials.category.Itemcategory}
+                onChange={handleInputChange}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                required
+              />
+              <TextField
+                label="Itemname"
+                name="Itemname"
+                value={catCredentials.category.Itemname}
+                onChange={handleInputChange}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                required
+              />
+              <TextField
+                label="Itemprice"
+                name="Itemprice"
+                value={catCredentials.category.Itemprice}
+                onChange={handleInputChange}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                multiline
+                rows={1}
+                required
+              />
+              <TextField
+                label="Discount"
+                name="Discount"
+                value={catCredentials.category.Discount}
+                onChange={handleInputChange}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                multiline
+                rows={1}
+                required
+              />
+
+              <TextField
+                label="numberQ"
+                name="numberQ"
+                value={catCredentials.category.numberQ}
+                onChange={handleInputChange}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                multiline
+                rows={1}
+                required
+              />
+
+              <TextField
+                label="Logo"
+                name="image"
+                type="file"
+                onChange={handleFileInputChange}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                required
+              />
+              <Button variant="contained" type="submit">
+                Update
+              </Button>
+            </form>
+          )}
+        </Box>
+      </Modal>
     </div>
   );
 };
