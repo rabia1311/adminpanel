@@ -71,11 +71,11 @@ const deleteRestaurant = async (req, res) => {
 const updateRestaurant = async (req, res, next) => {
   const categoryId = req.params.id;
   const {
-    Restaurant_name,
+    Restaurantname,
     Category,
     DeliveryTime,
     Description,
-    Restaurant_Address,
+    RestaurantAddress,
   } = req.body;
 
   Restaurant.findById(categoryId)
@@ -84,11 +84,11 @@ const updateRestaurant = async (req, res, next) => {
         return res.status(404).json({ error: "Restaunrant not found" });
       }
 
-      category.Restaurant_name = Restaurant_name;
+      category.Restaurantname = Restaurantname;
       category.Category = Category;
       category.DeliveryTime = DeliveryTime;
       category.Description = Description;
-      category.Restaurant_Address = Restaurant_Address;
+      category.RestaurantAddress = RestaurantAddress;
 
       if (req.file) {
         category.image = req.file.filename;
