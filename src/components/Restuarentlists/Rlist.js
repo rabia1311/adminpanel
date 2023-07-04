@@ -14,68 +14,73 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 
 const Rlist = () => {
-  const [restaurants, setRestaurants] = useState([]);
-  const [rmodalData, setRmodalData] = useState(null);
-  const [rmodalOpen, setRModalOpen] = useState(false);
+  const [category, setCategory] = useState([]);
+  const [modalData, setModalData] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [catOpen, setCatOpen] = useState(false);
 
-  const [resCredentials, setResCredentials] = useState({
-    restaurant: {
-      Restaurantname: "",
+  const [catCredentials, setCatCredentials] = useState({
+    category: {
+      Restaurant_name: "",
       Category: "",
       DeliveryTime: "",
       Description: "",
-      RestaurantAddress: "",
+      Restaurant_Address: "",
       image: "",
     },
   });
 
   useEffect(() => {
-    fetchRestaurants();
+    fetchCategories();
   }, []);
 
-  const fetchRestaurants = () => {
+  const fetchCategories = () => {
     fetch("http://localhost:3001/admin/restaurant")
       .then((response) => response.json())
       .then((data) => {
-        setRestaurants(data);
+        setCategory(data);
+        // console.log(data);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   };
 
-  const fetchRestaurantsById = (id) => {
+  const fetchCategoryById = (id) => {
     fetch(`http://localhost:3001/admin/restaurant/${id}`, {
       method: "GET",
     })
       .then((response) => response.json())
       .then((data) => {
-        setRmodalData(data);
-        setRModalOpen(true);
-        setResCredentials(data);
+        // console.log(data);
+        setModalData(data);
+        // console.log(data);
+        setModalOpen(true);
+        setCatCredentials(data);
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  console.log(rmodalData);
-  console.log(resCredentials);
+  console.log(modalData);
+  console.log(catCredentials);
 
   const handleModalSubmit = (e) => {
     e.preventDefault();
-    const id = resCredentials.restaurant._id;
-    const formData = new FormData();
 
-    formData.append("id", resCredentials.restaurant._id);
-    formData.append("Restaurantname", resCredentials.restaurant.Restaurantname);
-    formData.append("Category", resCredentials.restaurant.Category);
-    formData.append("DeliveryTime", resCredentials.restaurant.DeliveryTime);
-    formData.append("Description", resCredentials.restaurant.Description);
+    const id = catCredentials.category._id;
+
+    const formData = new FormData();
+    formData.append("id", catCredentials.category._id);
+    formData.append("Restaurant_name", catCredentials.category.Restaurant_name);
+    formData.append("Category", catCredentials.category.Category);
+    formData.append("DeliveryTime", catCredentials.category.DeliveryTime);
     formData.append(
-      "RestaurantAddress",
-      resCredentials.restaurant.RestaurantAddress
+      "Restaurant_Address",
+      catCredentials.category.Restaurant_Address
     );
-    formData.append("image", resCredentials.restaurant.image);
+
+    formData.append("image", catCredentials.category.image);
 
     fetch(`http://localhost:3001/admin/restaurant/${id}`, {
       method: "PUT",
@@ -83,41 +88,27 @@ const Rlist = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        fetchRestaurants();
-        handleCloseModal();
+        // console.log(data);
+        fetchCategories();
+        resetForm();
+        handleCloseModal(); // Close the modal after successful update
       })
       .catch((error) => {
-        console.error("Error updating restaurant:", error);
+        console.error("Error updating category:", error);
       });
   };
 
-  const handleUpdate = (id) => {
-    fetchRestaurantsById(id);
-  };
-
-  const handleCloseModal = () => {
-    setRModalOpen(false);
-    setRmodalData(null);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setResCredentials((prevCredentials) => ({
-      restaurant: {
-        ...prevCredentials.restaurant,
-        [name]: value,
+  const resetForm = () => {
+    setCatCredentials({
+      category: {
+        Restaurant_name: "",
+        Category: "",
+        DeliveryTime: "",
+        Description: "",
+        Restaurant_Address: "",
+        image: "",
       },
-    }));
-  };
-
-  const handleFileInputChange = (e) => {
-    const file = e.target.files[0];
-    setResCredentials((prevCredentials) => ({
-      restaurant: {
-        ...prevCredentials.restaurant,
-        image: file,
-      },
-    }));
+    });
   };
 
   const handleDelete = (id) => {
@@ -126,55 +117,85 @@ const Rlist = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        fetchRestaurants();
+        // console.log(data);
+        fetchCategories();
       })
       .catch((error) => {
-        console.error("Error deleting restaurant:", error);
+        console.error("Error deleting category:", error);
       });
   };
 
+  const handleUpdate = (id) => {
+    // console.log(id);
+    fetchCategoryById(id);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setModalData(null);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCatCredentials((prevCredentials) => ({
+      category: {
+        ...prevCredentials.category,
+        [name]: value,
+      },
+    }));
+  };
+
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+    setCatCredentials((prevCredentials) => ({
+      category: {
+        ...prevCredentials.category,
+        image: file,
+      },
+    }));
+  };
   return (
     <div className="container">
       <TableContainer className="tableContainer" component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
-            <h1 className="heading">List of Restaurants</h1>
+            <h1 className="heading">List of Restaurant</h1>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell align="right">Restaurant Name</TableCell>
-              <TableCell align="right">Category</TableCell>
-              <TableCell align="right">Delivery Time</TableCell>
+              <TableCell align="right">Restaurant_name</TableCell>
+              <TableCell align="right"> Category</TableCell>
+              <TableCell align="right">DeliveryTime</TableCell>
               <TableCell align="right">Description</TableCell>
-              <TableCell align="right">Address</TableCell>
+              <TableCell align="right">Restaurant_Address</TableCell>
               <TableCell align="right">Image</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {restaurants.map((restaurant) => (
-              <TableRow key={restaurant._id}>
+            {category.map((category) => (
+              <TableRow key={category._id}>
                 <TableCell component="th" scope="row">
-                  {restaurant._id}
+                  {category._id}
                 </TableCell>
-                <TableCell align="right">{restaurant.Restaurantname}</TableCell>
-                <TableCell align="right">{restaurant.Category}</TableCell>
-                <TableCell align="right">{restaurant.DeliveryTime}</TableCell>
-                <TableCell align="right">{restaurant.Description}</TableCell>
+                <TableCell align="right">{category.Restaurant_name}</TableCell>
+                <TableCell align="right">{category.Category}</TableCell>
+                <TableCell align="right">{category.DeliveryTime}</TableCell>
+                <TableCell align="right">{category.Description}</TableCell>
                 <TableCell align="right">
-                  {restaurant.RestaurantAddress}
+                  {category.Restaurant_Address}
                 </TableCell>
                 <TableCell align="right">
                   <img
-                    src={`http://localhost:3001/uploads/${restaurant.image}`}
-                    alt="Restaurant"
+                    src={`http://localhost:3001/uploads/${category.image}`}
+                    alt="Category"
                     className="image-thumbnail"
                   />
                 </TableCell>
                 <TableCell align="right">
-                  <Button onClick={() => handleUpdate(restaurant._id)}>
+                  <Button onClick={() => handleUpdate(category._id)}>
                     Edit
                   </Button>
-                  <Button onClick={() => handleDelete(restaurant._id)}>
+                  <Button onClick={() => handleDelete(category._id)}>
                     Delete
                   </Button>
                 </TableCell>
@@ -185,7 +206,7 @@ const Rlist = () => {
       </TableContainer>
 
       <Modal
-        open={rmodalOpen}
+        open={modalOpen}
         onClose={handleCloseModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -196,7 +217,7 @@ const Rlist = () => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 400,
+            width: 800,
             bgcolor: "background.paper",
             border: "2px solid #000",
             boxShadow: 24,
@@ -204,14 +225,14 @@ const Rlist = () => {
           }}
         >
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Edit Restaurant
+            Edit Category
           </Typography>
-          {rmodalData && (
+          {modalData && (
             <form onSubmit={handleModalSubmit}>
               <TextField
-                label="Restaurant Name"
-                name="Restaurantname"
-                value={resCredentials.Restaurantname}
+                label="Restaurant_name"
+                name="Restaurant_name"
+                value={catCredentials.category.Restaurant_name}
                 onChange={handleInputChange}
                 variant="outlined"
                 fullWidth
@@ -221,7 +242,7 @@ const Rlist = () => {
               <TextField
                 label="Category"
                 name="Category"
-                value={resCredentials.Category}
+                value={catCredentials.category.Category}
                 onChange={handleInputChange}
                 variant="outlined"
                 fullWidth
@@ -229,39 +250,42 @@ const Rlist = () => {
                 required
               />
               <TextField
-                label="Delivery Time"
+                label="DeliveryTime"
                 name="DeliveryTime"
-                value={resCredentials.DeliveryTime}
+                value={catCredentials.category.DeliveryTime}
                 onChange={handleInputChange}
                 variant="outlined"
                 fullWidth
                 margin="normal"
                 multiline
-                rows={4}
+                rows={1}
                 required
               />
               <TextField
                 label="Description"
                 name="Description"
-                value={resCredentials.Description}
+                value={catCredentials.category.Description}
                 onChange={handleInputChange}
                 variant="outlined"
                 fullWidth
                 margin="normal"
                 multiline
-                rows={4}
+                rows={2}
                 required
               />
               <TextField
-                label="Restaurant Address"
-                name="RestaurantAddress"
-                value={resCredentials.RestaurantAddress}
+                label="Restaurant_Address"
+                name="Restaurant_Address"
+                value={catCredentials.category.Restaurant_Address}
                 onChange={handleInputChange}
                 variant="outlined"
                 fullWidth
                 margin="normal"
+                multiline
+                rows={2}
                 required
               />
+
               <TextField
                 label="Logo"
                 name="image"
