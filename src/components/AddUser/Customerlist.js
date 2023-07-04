@@ -6,24 +6,103 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 
+import Typography from "@mui/material/Typography";
 const CustomerList = () => {
-  const [customer, setCustomer] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [modalData, setModalData] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [catOpen, setCatOpen] = useState(false);
+
+  const [catCredentials, setCatCredentials] = useState({
+    category: {
+      name: "",
+      email: "",
+      phone: "",
+      address: "",
+      image: "",
+    },
+  });
 
   useEffect(() => {
-    fetchCustomers();
+    fetchCategories();
   }, []);
 
-  const fetchCustomers = () => {
+  const fetchCategories = () => {
     fetch("http://localhost:3001/admin/customer")
       .then((response) => response.json())
       .then((data) => {
-        setCustomer(data);
-        console.log(data);
+        setCategory(data);
+        // console.log(data);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
+  };
+
+  const fetchCategoryById = (id) => {
+    fetch(`http://localhost:3001/admin/customer/${id}`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log(data);
+        setModalData(data);
+        // console.log(data);
+        setModalOpen(true);
+        setCatCredentials(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  console.log(modalData);
+  console.log(catCredentials);
+
+  const handleModalSubmit = (e) => {
+    e.preventDefault();
+
+    const id = catCredentials.category._id;
+
+    const formData = new FormData();
+    formData.append("id", catCredentials.category._id);
+    formData.append("name", catCredentials.category.name);
+    formData.append("email", catCredentials.category.email);
+    formData.append("address", catCredentials.category.address);
+    formData.append("phone", catCredentials.category.phone);
+
+    formData.append("image", catCredentials.category.image);
+
+    fetch(`http://localhost:3001/admin/customer/${id}`, {
+      method: "PUT",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log(data);
+        fetchCategories();
+        resetForm();
+        handleCloseModal(); // Close the modal after successful update
+      })
+      .catch((error) => {
+        console.error("Error updating category:", error);
+      });
+  };
+
+  const resetForm = () => {
+    setCatCredentials({
+      category: {
+        name: "",
+        email: "",
+        address: "",
+        phone: "",
+        image: "",
+      },
+    });
   };
 
   const handleDelete = (id) => {
@@ -32,58 +111,177 @@ const CustomerList = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        fetchCustomers();
+        // console.log(data);
+        fetchCategories();
       })
       .catch((error) => {
-        console.error("Error deleting customer:", error);
+        console.error("Error deleting category:", error);
       });
   };
 
+  const handleUpdate = (id) => {
+    // console.log(id);
+    fetchCategoryById(id);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setModalData(null);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCatCredentials((prevCredentials) => ({
+      category: {
+        ...prevCredentials.category,
+        [name]: value,
+      },
+    }));
+  };
+
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+    setCatCredentials((prevCredentials) => ({
+      category: {
+        ...prevCredentials.category,
+        image: file,
+      },
+    }));
+  };
   return (
     <div className="container">
-      <h1 className="heading">List of Customers</h1>
-      <TableContainer component={Paper}>
+      <TableContainer className="tableContainer" component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
+            <h1 className="heading">List of Customer</h1>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell align="right">Customer Name</TableCell>
-              <TableCell align="right">Email</TableCell>
-              <TableCell align="right">Phone</TableCell>
-              <TableCell align="right">Address</TableCell>
-              <TableCell align="right">Image</TableCell>
+              <TableCell align="right">name</TableCell>
+              <TableCell align="right">email</TableCell>
+              <TableCell align="right">address</TableCell>
+              <TableCell align="right">phone</TableCell>
+              <TableCell align="right">image</TableCell>
+
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {customer.map((customer) => (
-              <TableRow key={customer._id}>
+            {category.map((category) => (
+              <TableRow key={category._id}>
                 <TableCell component="th" scope="row">
-                  {customer._id}
+                  {category._id}
                 </TableCell>
-                <TableCell align="right">{customer.name}</TableCell>
-                <TableCell align="right">{customer.email}</TableCell>
-                <TableCell align="right">{customer.phone}</TableCell>
-                <TableCell align="right">{customer.address}</TableCell>
+                <TableCell align="right">{category.name}</TableCell>
+                <TableCell align="right">{category.email}</TableCell>
+                <TableCell align="right">{category.address}</TableCell>
+                <TableCell align="right">{category.phone}</TableCell>
                 <TableCell align="right">
                   <img
-                    src={`http://localhost:3001/customerImg/${customer.image}`}
-                    alt="Restaurant"
+                    src={`http://localhost:3001/customerImg/${category.image}`}
+                    alt="Category"
                     className="image-thumbnail"
                   />
                 </TableCell>
                 <TableCell align="right">
-                  <button>Edit</button>
-                  <button onClick={() => handleDelete(customer._id)}>
+                  <Button onClick={() => handleUpdate(category._id)}>
+                    Edit
+                  </Button>
+                  <Button onClick={() => handleDelete(category._id)}>
                     Delete
-                  </button>
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Modal
+        open={modalOpen}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            border: "2px solid #000",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Edit Customer
+          </Typography>
+          {modalData && (
+            <form onSubmit={handleModalSubmit}>
+              <TextField
+                label="name"
+                name="name"
+                value={catCredentials.category.name}
+                onChange={handleInputChange}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                required
+              />
+              <TextField
+                label="email"
+                name="email"
+                value={catCredentials.category.email}
+                onChange={handleInputChange}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                required
+              />
+              <TextField
+                label="address"
+                name="address"
+                value={catCredentials.category.address}
+                onChange={handleInputChange}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                multiline
+                rows={4}
+                required
+              />
+              <TextField
+                label="phone"
+                name="phone"
+                value={catCredentials.category.phone}
+                onChange={handleInputChange}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                multiline
+                rows={4}
+                required
+              />
+
+              <TextField
+                label="Logo"
+                name="image"
+                type="file"
+                onChange={handleFileInputChange}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                required
+              />
+              <Button variant="contained" type="submit">
+                Update
+              </Button>
+            </form>
+          )}
+        </Box>
+      </Modal>
     </div>
   );
 };
