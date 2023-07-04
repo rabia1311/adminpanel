@@ -188,11 +188,11 @@ const Widgets = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("image", selectedFile);
-    formData.append("Restaurant_name", rescredentials.Restaurantname);
+    formData.append("Restaurantname", rescredentials.Restaurantname);
     formData.append("Category", rescredentials.Category);
     formData.append("DeliveryTime", rescredentials.DeliveryTime);
     formData.append("Description", rescredentials.Description);
-    formData.append("Restaurant_Address", rescredentials.RestaurantAddress);
+    formData.append("RestaurantAddress", rescredentials.RestaurantAddress);
 
     try {
       const response = await fetch("http://localhost:3001/admin/restaurant", {
@@ -292,7 +292,7 @@ const Widgets = () => {
             />
             <TextField
               label="Restaurant_Address"
-              name="Restaurant_Address"
+              name="RestaurantAddress"
               value={rescredentials.RestaurantAddress}
               onChange={handleResChange}
               variant="outlined"
