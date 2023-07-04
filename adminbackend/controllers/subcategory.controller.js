@@ -53,8 +53,40 @@ const deleteRestaurant = async (req, res) => {
       .json({ error: "An error occurred while deleting the restaurant" });
   }
 };
+
+const updateSubcategory = async (req, res, next) => {
+  const subcategoryId = req.params.id;
+  const { Itemcategory, Itemname, Itemprice, Discount, numberQ } = req.body;
+
+  Subcategory.findById(subcategoryId)
+    .then((subcategory) => {
+      if (!subcategory) {
+        return res.status(404).json({ error: "Item  not found" });
+      }
+
+      subcategory.Itemcategory = Itemcategory;
+      subcategory.Itemname = Itemname;
+      subcategory.Itemprice = Itemprice;
+      subcategory.Discount = Discount;
+      subcategory.numberQ = numberQ;
+      if (req.file) {
+        subcategory.image = req.file.filename;
+      }
+      return subcategory.save();
+    })
+    .then((updatedSubcategory) => {
+      res.status(200).json({ updated_subcategory: updatedSubcategory });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: "An error occurred while updating the item details ",
+      });
+    });
+};
 module.exports = {
   createSubcategory,
   getSubCategory,
   deleteRestaurant,
+  updateSubcategory,
 };

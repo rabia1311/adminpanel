@@ -52,8 +52,41 @@ const deleteRestaurant = async (req, res) => {
   }
 };
 
+const updateCustomer = async (req, res, next) => {
+  const customerId = req.params.id;
+  const { name, email, phone, address } = req.body;
+
+  Customer.findById(customerId)
+    .then((customer) => {
+      if (!customer) {
+        return res.status(404).json({ error: "Customer  not found" });
+      }
+      customer.name = name;
+      customer.email = email;
+      customer.phone = phone;
+      customer.address = address;
+      if (req.file) {
+        customer.image = req.file.filename;
+      }
+      return customer.save();
+    })
+
+    .then((updatedCustomer) => {
+      res.status(200).json({ updated_customer: updatedCustomer });
+    })
+    .catch((err) => {
+      console.log(err);
+      res
+        .status(500)
+        .json({
+          error: "An error occurred while updating the customer details ",
+        });
+    });
+};
+
 module.exports = {
   createCustomer,
   getCustomer,
   deleteRestaurant,
+  updateCustomer,
 };
