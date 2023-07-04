@@ -175,24 +175,24 @@ const Widgets = () => {
   //restuarants adding here :
 
   const [rescredentials, setRescredentials] = useState({
-    Restaurant_name: "",
+    Restaurantname: "",
     Category: "",
     DeliveryTime: "",
     Description: "",
-    Restaurant_Address: "",
+    RestaurantAddress: "",
 
-    // image: "",
+    image: "",
   });
 
   const handleResSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("image", selectedFile);
-    formData.append("Restaurant_name", rescredentials.Restaurant_name);
+    formData.append("Restaurant_name", rescredentials.Restaurantname);
     formData.append("Category", rescredentials.Category);
     formData.append("DeliveryTime", rescredentials.DeliveryTime);
     formData.append("Description", rescredentials.Description);
-    formData.append("Restaurant_Address", rescredentials.Restaurant_Address);
+    formData.append("Restaurant_Address", rescredentials.RestaurantAddress);
 
     try {
       const response = await fetch("http://localhost:3001/admin/restaurant", {
@@ -249,8 +249,8 @@ const Widgets = () => {
           <form onSubmit={handleResSubmit}>
             <TextField
               label="Restaurant_name"
-              name="Restaurant_name"
-              value={rescredentials.Restaurant_name}
+              name="Restaurantname"
+              value={rescredentials.Restaurantname}
               onChange={handleResChange}
               variant="outlined"
               fullWidth
@@ -293,7 +293,7 @@ const Widgets = () => {
             <TextField
               label="Restaurant_Address"
               name="Restaurant_Address"
-              value={rescredentials.Restaurant_Address}
+              value={rescredentials.RestaurantAddress}
               onChange={handleResChange}
               variant="outlined"
               fullWidth

@@ -127,13 +127,6 @@ const Catlist = () => {
     setModalData(null);
   };
 
-  const handleCatChange = (event) => {
-    setCatCredentials((prevState) => ({
-      ...prevState,
-      [event.target.name]: event.target.value,
-    }));
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCatCredentials((prevCredentials) => ({

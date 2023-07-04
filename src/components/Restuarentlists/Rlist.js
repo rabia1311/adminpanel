@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 
 const Rlist = () => {
-  const [restaurant, setRestaurant] = useState([]);
+  const [restaurants, setRestaurants] = useState([]);
   const [rmodalData, setRmodalData] = useState(null);
   const [rmodalOpen, setRModalOpen] = useState(false);
 
@@ -37,8 +37,7 @@ const Rlist = () => {
     fetch("http://localhost:3001/admin/restaurant")
       .then((response) => response.json())
       .then((data) => {
-        setRestaurant(data);
-        console.log(data);
+        setRestaurants(data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -59,6 +58,8 @@ const Rlist = () => {
         console.log(error);
       });
   };
+  console.log(rmodalData);
+  console.log(resCredentials);
 
   const handleModalSubmit = (e) => {
     e.preventDefault();
@@ -102,10 +103,19 @@ const Rlist = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setResCredentials((prevCredentials) => ({
-      ...prevCredentials,
       restaurant: {
         ...prevCredentials.restaurant,
         [name]: value,
+      },
+    }));
+  };
+
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+    setResCredentials((prevCredentials) => ({
+      restaurant: {
+        ...prevCredentials.restaurant,
+        image: file,
       },
     }));
   };
@@ -116,7 +126,6 @@ const Rlist = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         fetchRestaurants();
       })
       .catch((error) => {
@@ -142,7 +151,7 @@ const Rlist = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {restaurant.map((restaurant) => (
+            {restaurants.map((restaurant) => (
               <TableRow key={restaurant._id}>
                 <TableCell component="th" scope="row">
                   {restaurant._id}
@@ -202,7 +211,7 @@ const Rlist = () => {
               <TextField
                 label="Restaurant Name"
                 name="Restaurantname"
-                value={resCredentials.restaurant.Restaurantname}
+                value={resCredentials.Restaurantname}
                 onChange={handleInputChange}
                 variant="outlined"
                 fullWidth
@@ -212,7 +221,7 @@ const Rlist = () => {
               <TextField
                 label="Category"
                 name="Category"
-                value={resCredentials.restaurant.Category}
+                value={resCredentials.Category}
                 onChange={handleInputChange}
                 variant="outlined"
                 fullWidth
@@ -222,7 +231,7 @@ const Rlist = () => {
               <TextField
                 label="Delivery Time"
                 name="DeliveryTime"
-                value={resCredentials.restaurant.DeliveryTime}
+                value={resCredentials.DeliveryTime}
                 onChange={handleInputChange}
                 variant="outlined"
                 fullWidth
@@ -234,7 +243,7 @@ const Rlist = () => {
               <TextField
                 label="Description"
                 name="Description"
-                value={resCredentials.restaurant.Description}
+                value={resCredentials.Description}
                 onChange={handleInputChange}
                 variant="outlined"
                 fullWidth
@@ -246,23 +255,22 @@ const Rlist = () => {
               <TextField
                 label="Restaurant Address"
                 name="RestaurantAddress"
-                value={resCredentials.restaurant.RestaurantAddress}
+                value={resCredentials.RestaurantAddress}
                 onChange={handleInputChange}
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                multiline
-                rows={4}
                 required
               />
               <TextField
                 label="Logo"
                 name="image"
-                value={resCredentials.restaurant.image}
-                onChange={handleInputChange}
+                type="file"
+                onChange={handleFileInputChange}
                 variant="outlined"
                 fullWidth
                 margin="normal"
+                required
               />
               <Button variant="contained" type="submit">
                 Update

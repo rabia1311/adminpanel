@@ -69,7 +69,7 @@ const deleteRestaurant = async (req, res) => {
 //update
 
 const updateRestaurant = async (req, res, next) => {
-  const categoryId = req.params.id;
+  const restaurantId = req.params.id;
   const {
     Restaurantname,
     Category,
@@ -78,26 +78,26 @@ const updateRestaurant = async (req, res, next) => {
     RestaurantAddress,
   } = req.body;
 
-  Restaurant.findById(categoryId)
-    .then((category) => {
-      if (!category) {
-        return res.status(404).json({ error: "Restaunrant not found" });
+  Restaurant.findById(restaurantId)
+    .then((restaurant) => {
+      if (!restaurant) {
+        return res.status(404).json({ error: "Restaurant not found" });
       }
 
-      category.Restaurantname = Restaurantname;
-      category.Category = Category;
-      category.DeliveryTime = DeliveryTime;
-      category.Description = Description;
-      category.RestaurantAddress = RestaurantAddress;
+      restaurant.Restaurantname = Restaurantname;
+      restaurant.Category = Category;
+      restaurant.DeliveryTime = DeliveryTime;
+      restaurant.Description = Description;
+      restaurant.RestaurantAddress = RestaurantAddress;
 
       if (req.file) {
-        category.image = req.file.filename;
+        restaurant.image = req.file.filename;
       }
 
-      return category.save();
+      return restaurant.save();
     })
-    .then((updatedCategory) => {
-      res.status(200).json({ updated_category: updatedCategory });
+    .then((updatedRestaurant) => {
+      res.status(200).json({ updated_restaurant: updatedRestaurant });
     })
     .catch((err) => {
       console.log(err);
@@ -106,6 +106,8 @@ const updateRestaurant = async (req, res, next) => {
         .json({ error: "An error occurred while updating the restaurant" });
     });
 };
+
+// Add other routes and controllers for creating, deleting, fetching restaurants, etc.
 
 module.exports = {
   createRestaurant,
