@@ -74,6 +74,7 @@ const Catlist = () => {
     formData.append("CategoryType", catCredentials.category.CategoryType);
     formData.append("CategoryName", catCredentials.category.CategoryName);
     formData.append("Description", catCredentials.category.Description);
+    formData.append("image", catCredentials.category.image);
 
     fetch(`http://localhost:3001/admin/category/${id}`, {
       method: "PUT",
@@ -143,6 +144,15 @@ const Catlist = () => {
     }));
   };
 
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+    setCatCredentials((prevCredentials) => ({
+      category: {
+        ...prevCredentials.category,
+        image: file,
+      },
+    }));
+  };
   return (
     <div className="container">
       <TableContainer className="tableContainer" component={Paper}>
@@ -248,8 +258,8 @@ const Catlist = () => {
               <TextField
                 label="Logo"
                 name="image"
-                value={catCredentials.category.image}
-                onChange={handleInputChange}
+                type="file"
+                onChange={handleFileInputChange}
                 variant="outlined"
                 fullWidth
                 margin="normal"
