@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import SearchIcon from "@mui/icons-material/Search";
 
 import Typography from "@mui/material/Typography";
 const CustomerList = () => {
@@ -17,6 +18,7 @@ const CustomerList = () => {
   const [modalData, setModalData] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
+  const [filteredCategory, setFilteredCategory] = useState([]);
 
   const [catCredentials, setCatCredentials] = useState({
     category: {
@@ -27,6 +29,7 @@ const CustomerList = () => {
       image: "",
     },
   });
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetchCategories();
@@ -148,13 +151,37 @@ const CustomerList = () => {
       },
     }));
   };
+
+  const handleSearch = (e) => {
+    const { value } = e.target;
+    setSearchQuery(value.trim());
+
+    const filteredRestaurants = category.filter((cat) =>
+      cat.name.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredCategory(filteredRestaurants);
+  };
+
   return (
     <div className="container">
       <TableContainer className="tableContainer" component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <h1 className="heading">List of Customer</h1>
-
+            <TextField
+              label="Search Restaurant"
+              value={searchQuery}
+              onChange={handleSearch}
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              InputProps={{
+                startAdornment: (
+                  <SearchIcon color="action" sx={{ marginRight: "8px" }} />
+                ),
+              }}
+              style={{ width: "200px", marginRight: "16px" }}
+            />
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell align="right">name</TableCell>
@@ -167,7 +194,7 @@ const CustomerList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {category.map((category) => (
+            {filteredCategory.map((category) => (
               <TableRow key={category._id}>
                 <TableCell component="th" scope="row">
                   {category._id}
