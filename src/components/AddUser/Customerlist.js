@@ -13,6 +13,7 @@ import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 
 import Typography from "@mui/material/Typography";
+
 const CustomerList = () => {
   const [category, setCategory] = useState([]);
   const [modalData, setModalData] = useState(null);
@@ -40,7 +41,7 @@ const CustomerList = () => {
       .then((response) => response.json())
       .then((data) => {
         setCategory(data);
-        // console.log(data);
+        setFilteredCategory(data); // Set filteredCategory initially with all categories
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -53,9 +54,7 @@ const CustomerList = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
         setModalData(data);
-        // console.log(data);
         setModalOpen(true);
         setCatCredentials(data);
       })
@@ -63,8 +62,6 @@ const CustomerList = () => {
         console.log(error);
       });
   };
-  console.log(modalData);
-  console.log(catCredentials);
 
   const handleModalSubmit = (e) => {
     e.preventDefault();
@@ -86,10 +83,9 @@ const CustomerList = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
         fetchCategories();
         resetForm();
-        handleCloseModal(); // Close the modal after successful update
+        handleCloseModal();
       })
       .catch((error) => {
         console.error("Error updating category:", error);
@@ -114,7 +110,6 @@ const CustomerList = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
         fetchCategories();
       })
       .catch((error) => {
@@ -123,7 +118,6 @@ const CustomerList = () => {
   };
 
   const handleUpdate = (id) => {
-    // console.log(id);
     fetchCategoryById(id);
   };
 
@@ -169,7 +163,7 @@ const CustomerList = () => {
           <TableHead>
             <h1 className="heading">List of Customer</h1>
             <TextField
-              label="Search Restaurant"
+              label="Search customer name"
               value={searchQuery}
               onChange={handleSearch}
               variant="outlined"
@@ -189,7 +183,6 @@ const CustomerList = () => {
               <TableCell align="right">address</TableCell>
               <TableCell align="right">phone</TableCell>
               <TableCell align="right">image</TableCell>
-
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
