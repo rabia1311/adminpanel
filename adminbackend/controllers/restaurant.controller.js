@@ -78,6 +78,11 @@ const updateRestaurant = async (req, res, next) => {
     Restaurant_Address,
   } = req.body;
 
+  // Check if the "Description" field is provided
+  if (!Description) {
+    return res.status(400).json({ error: "Description is required" });
+  }
+
   Restaurant.findById(restaurantId)
     .then((restaurant) => {
       if (!restaurant) {

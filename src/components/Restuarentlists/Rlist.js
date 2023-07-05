@@ -17,17 +17,13 @@ const Rlist = () => {
   const [category, setCategory] = useState([]);
   const [modalData, setModalData] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [catOpen, setCatOpen] = useState(false);
-
   const [catCredentials, setCatCredentials] = useState({
-    category: {
-      Restaurant_name: "",
-      Category: "",
-      DeliveryTime: "",
-      Description: "",
-      Restaurant_Address: "",
-      image: "",
-    },
+    Restaurant_name: "",
+    Category: "",
+    DeliveryTime: "",
+    Description: "",
+    Restaurant_Address: "",
+    image: null,
   });
 
   useEffect(() => {
@@ -39,7 +35,6 @@ const Rlist = () => {
       .then((response) => response.json())
       .then((data) => {
         setCategory(data);
-        // console.log(data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -52,35 +47,29 @@ const Rlist = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
         setModalData(data);
-        // console.log(data);
         setModalOpen(true);
-        setCatCredentials(data);
+        setCatCredentials(data.category);
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  console.log(modalData);
-  console.log(catCredentials);
 
   const handleModalSubmit = (e) => {
     e.preventDefault();
 
-    const id = catCredentials.category._id;
+    const id = catCredentials._id;
 
     const formData = new FormData();
-    formData.append("id", catCredentials.category._id);
-    formData.append("Restaurant_name", catCredentials.category.Restaurant_name);
-    formData.append("Category", catCredentials.category.Category);
-    formData.append("DeliveryTime", catCredentials.category.DeliveryTime);
-    formData.append(
-      "Restaurant_Address",
-      catCredentials.category.Restaurant_Address
-    );
+    formData.append("id", catCredentials._id);
+    formData.append("Restaurant_name", catCredentials.Restaurant_name);
+    formData.append("Category", catCredentials.Category);
+    formData.append("DeliveryTime", catCredentials.DeliveryTime);
+    formData.append("Description", catCredentials.Description);
 
-    formData.append("image", catCredentials.category.image);
+    formData.append("Restaurant_Address", catCredentials.Restaurant_Address);
+    formData.append("image", catCredentials.image);
 
     fetch(`http://localhost:3001/admin/restaurant/${id}`, {
       method: "PUT",
@@ -88,7 +77,6 @@ const Rlist = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
         fetchCategories();
         resetForm();
         handleCloseModal(); // Close the modal after successful update
@@ -100,14 +88,12 @@ const Rlist = () => {
 
   const resetForm = () => {
     setCatCredentials({
-      category: {
-        Restaurant_name: "",
-        Category: "",
-        DeliveryTime: "",
-        Description: "",
-        Restaurant_Address: "",
-        image: "",
-      },
+      Restaurant_name: "",
+      Category: "",
+      DeliveryTime: "",
+      Description: "",
+      Restaurant_Address: "",
+      image: null,
     });
   };
 
@@ -117,7 +103,6 @@ const Rlist = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
         fetchCategories();
       })
       .catch((error) => {
@@ -126,7 +111,6 @@ const Rlist = () => {
   };
 
   const handleUpdate = (id) => {
-    // console.log(id);
     fetchCategoryById(id);
   };
 
@@ -138,22 +122,19 @@ const Rlist = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCatCredentials((prevCredentials) => ({
-      category: {
-        ...prevCredentials.category,
-        [name]: value,
-      },
+      ...prevCredentials,
+      [name]: value,
     }));
   };
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
     setCatCredentials((prevCredentials) => ({
-      category: {
-        ...prevCredentials.category,
-        image: file,
-      },
+      ...prevCredentials,
+      image: file,
     }));
   };
+
   return (
     <div className="container">
       <TableContainer className="tableContainer" component={Paper}>
@@ -163,7 +144,7 @@ const Rlist = () => {
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell align="right">Restaurant_name</TableCell>
-              <TableCell align="right"> Category</TableCell>
+              <TableCell align="right">Category</TableCell>
               <TableCell align="right">DeliveryTime</TableCell>
               <TableCell align="right">Description</TableCell>
               <TableCell align="right">Restaurant_Address</TableCell>
@@ -172,32 +153,26 @@ const Rlist = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {category.map((category) => (
-              <TableRow key={category._id}>
+            {category.map((cat) => (
+              <TableRow key={cat._id}>
                 <TableCell component="th" scope="row">
-                  {category._id}
+                  {cat._id}
                 </TableCell>
-                <TableCell align="right">{category.Restaurant_name}</TableCell>
-                <TableCell align="right">{category.Category}</TableCell>
-                <TableCell align="right">{category.DeliveryTime}</TableCell>
-                <TableCell align="right">{category.Description}</TableCell>
-                <TableCell align="right">
-                  {category.Restaurant_Address}
-                </TableCell>
+                <TableCell align="right">{cat.Restaurant_name}</TableCell>
+                <TableCell align="right">{cat.Category}</TableCell>
+                <TableCell align="right">{cat.DeliveryTime}</TableCell>
+                <TableCell align="right">{cat.Description}</TableCell>
+                <TableCell align="right">{cat.Restaurant_Address}</TableCell>
                 <TableCell align="right">
                   <img
-                    src={`http://localhost:3001/uploads/${category.image}`}
+                    src={`http://localhost:3001/uploads/${cat.image}`}
                     alt="Category"
                     className="image-thumbnail"
                   />
                 </TableCell>
                 <TableCell align="right">
-                  <Button onClick={() => handleUpdate(category._id)}>
-                    Edit
-                  </Button>
-                  <Button onClick={() => handleDelete(category._id)}>
-                    Delete
-                  </Button>
+                  <Button onClick={() => handleUpdate(cat._id)}>Edit</Button>
+                  <Button onClick={() => handleDelete(cat._id)}>Delete</Button>
                 </TableCell>
               </TableRow>
             ))}
@@ -232,7 +207,7 @@ const Rlist = () => {
               <TextField
                 label="Restaurant_name"
                 name="Restaurant_name"
-                value={catCredentials.category.Restaurant_name}
+                value={catCredentials.Restaurant_name}
                 onChange={handleInputChange}
                 variant="outlined"
                 fullWidth
@@ -242,7 +217,7 @@ const Rlist = () => {
               <TextField
                 label="Category"
                 name="Category"
-                value={catCredentials.category.Category}
+                value={catCredentials.Category}
                 onChange={handleInputChange}
                 variant="outlined"
                 fullWidth
@@ -252,7 +227,7 @@ const Rlist = () => {
               <TextField
                 label="DeliveryTime"
                 name="DeliveryTime"
-                value={catCredentials.category.DeliveryTime}
+                value={catCredentials.DeliveryTime}
                 onChange={handleInputChange}
                 variant="outlined"
                 fullWidth
@@ -264,7 +239,7 @@ const Rlist = () => {
               <TextField
                 label="Description"
                 name="Description"
-                value={catCredentials.category.Description}
+                value={catCredentials.Description}
                 onChange={handleInputChange}
                 variant="outlined"
                 fullWidth
@@ -276,7 +251,7 @@ const Rlist = () => {
               <TextField
                 label="Restaurant_Address"
                 name="Restaurant_Address"
-                value={catCredentials.category.Restaurant_Address}
+                value={catCredentials.Restaurant_Address}
                 onChange={handleInputChange}
                 variant="outlined"
                 fullWidth
@@ -294,7 +269,6 @@ const Rlist = () => {
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                required
               />
               <Button variant="contained" type="submit">
                 Update
