@@ -153,10 +153,12 @@ const Rlist = () => {
     <div className="container">
       <TableContainer className="tableContainer" component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <h1 className="heading">List of Restaurant</h1>
+          <TableHead style={{ display: "flex", alignItems: "center" }}>
+            <h1 className="heading" style={{ marginRight: "16px" }}>
+              List of Restaurants
+            </h1>
             <TextField
-              label="Search Restaurant "
+              label="Search Restaurant"
               value={searchQuery}
               onChange={handleSearch}
               variant="outlined"
@@ -167,18 +169,20 @@ const Rlist = () => {
                   <SearchIcon color="action" sx={{ marginRight: "8px" }} />
                 ),
               }}
+              style={{ width: "200px", marginRight: "16px" }}
             />
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell align="right">Restaurant_name</TableCell>
-              <TableCell align="right">Category</TableCell>
-              <TableCell align="right">DeliveryTime</TableCell>
-              <TableCell align="right">Description</TableCell>
-              <TableCell align="right">Restaurant_Address</TableCell>
-              <TableCell align="right">Image</TableCell>
-              <TableCell align="right">Actions</TableCell>
-            </TableRow>
           </TableHead>
+          <TableRow>
+            <TableCell>ID</TableCell>
+            <TableCell align="right">Restaurant_name</TableCell>
+            <TableCell align="right">Category</TableCell>
+            <TableCell align="right">DeliveryTime</TableCell>
+            <TableCell align="right">Description</TableCell>
+            <TableCell align="right">Restaurant_Address</TableCell>
+            <TableCell align="right">Image</TableCell>
+            <TableCell align="right">Actions</TableCell>
+          </TableRow>
+
           <TableBody>
             {filteredCategory.map((cat) => (
               <TableRow key={cat._id}>
