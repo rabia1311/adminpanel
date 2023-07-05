@@ -12,9 +12,11 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import SearchIcon from "@mui/icons-material/Search";
 
 const Rlist = () => {
   const [category, setCategory] = useState([]);
+  const [filteredCategory, setFilteredCategory] = useState([]);
   const [modalData, setModalData] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [catCredentials, setCatCredentials] = useState({
@@ -25,6 +27,7 @@ const Rlist = () => {
     Restaurant_Address: "",
     image: null,
   });
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetchCategories();
@@ -35,6 +38,7 @@ const Rlist = () => {
       .then((response) => response.json())
       .then((data) => {
         setCategory(data);
+        setFilteredCategory(data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -135,12 +139,35 @@ const Rlist = () => {
     }));
   };
 
+  const handleSearch = (e) => {
+    const { value } = e.target;
+    setSearchQuery(value.trim());
+
+    const filteredRestaurants = category.filter((cat) =>
+      cat.Restaurant_name.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredCategory(filteredRestaurants);
+  };
+
   return (
     <div className="container">
       <TableContainer className="tableContainer" component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <h1 className="heading">List of Restaurant</h1>
+            <TextField
+              label="Search Restaurant "
+              value={searchQuery}
+              onChange={handleSearch}
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              InputProps={{
+                startAdornment: (
+                  <SearchIcon color="action" sx={{ marginRight: "8px" }} />
+                ),
+              }}
+            />
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell align="right">Restaurant_name</TableCell>
@@ -153,7 +180,7 @@ const Rlist = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {category.map((cat) => (
+            {filteredCategory.map((cat) => (
               <TableRow key={cat._id}>
                 <TableCell component="th" scope="row">
                   {cat._id}
@@ -212,7 +239,6 @@ const Rlist = () => {
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                required
               />
               <TextField
                 label="Category"
@@ -222,7 +248,6 @@ const Rlist = () => {
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                required
               />
               <TextField
                 label="DeliveryTime"
@@ -232,9 +257,6 @@ const Rlist = () => {
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                multiline
-                rows={1}
-                required
               />
               <TextField
                 label="Description"
@@ -244,9 +266,6 @@ const Rlist = () => {
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                multiline
-                rows={2}
-                required
               />
               <TextField
                 label="Restaurant_Address"
@@ -256,21 +275,13 @@ const Rlist = () => {
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                multiline
-                rows={2}
-                required
               />
-
-              <TextField
-                label="Logo"
-                name="image"
+              <input
                 type="file"
+                accept="image/*"
                 onChange={handleFileInputChange}
-                variant="outlined"
-                fullWidth
-                margin="normal"
               />
-              <Button variant="contained" type="submit">
+              <Button type="submit" variant="contained">
                 Update
               </Button>
             </form>
