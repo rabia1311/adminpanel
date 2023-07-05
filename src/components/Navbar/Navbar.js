@@ -1,5 +1,5 @@
-import React from 'react'
-import "../Navbar/nav.scss"
+import React from "react";
+import "../Navbar/nav.scss";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
@@ -8,14 +8,16 @@ import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNone
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 
-
 const Navbar = () => {
- 
   return (
     <div className="navbar">
       <div className="wrapper">
-        <div className="search" style={{ height: '35px'}} >
-          <input type="text" placeholder="Search..."  style={{ height: '8px', width: '160px'}}/>
+        <div className="search" style={{ height: "35px", width: "200px" }}>
+          <input
+            type="text"
+            placeholder="Search..."
+            style={{ height: "8px", width: "180px" }}
+          />
           <SearchOutlinedIcon />
         </div>
         <div className="items">
@@ -24,10 +26,7 @@ const Navbar = () => {
             English
           </div>
           <div className="item">
-            <DarkModeOutlinedIcon
-              className="icon"
-            
-            />
+            <DarkModeOutlinedIcon className="icon" />
           </div>
           <div className="item">
             <FullscreenExitOutlinedIcon className="icon" />

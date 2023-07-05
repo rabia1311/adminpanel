@@ -20,6 +20,8 @@ const Subcategory = () => {
   const [modalData, setModalData] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
+  const [filter, setFilter] = useState("");
+  const [filteredCategories, setFilteredCategories] = useState([]);
 
   const [catCredentials, setCatCredentials] = useState({
     category: {
@@ -28,7 +30,6 @@ const Subcategory = () => {
       Itemprice: "",
       Discount: "",
       numberQ: "",
-
       image: "",
     },
   });
@@ -42,11 +43,28 @@ const Subcategory = () => {
       .then((response) => response.json())
       .then((data) => {
         setCategory(data);
-        // console.log(data);
+        filterCategories(data, filter);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
+  };
+  const filterCategories = (categories, filter) => {
+    if (filter === "veg") {
+      const filteredVegCategories = categories.filter(
+        (category) => category.Itemcategory === "veg"
+      );
+      setFilteredCategories(filteredVegCategories);
+      console.log(filteredVegCategories); // Log the filtered veg categories to console
+    } else if (filter === "non veg") {
+      const filteredNonVegCategories = categories.filter(
+        (category) => category.Itemcategory === "non veg"
+      );
+      setFilteredCategories(filteredNonVegCategories);
+      console.log(filteredNonVegCategories); // Log the filtered non-veg categories to console
+    } else {
+      setFilteredCategories(categories);
+    }
   };
 
   const fetchCategoryById = (id) => {
@@ -55,9 +73,7 @@ const Subcategory = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
         setModalData(data);
-        // console.log(data);
         setModalOpen(true);
         setCatCredentials(data);
       })
@@ -65,8 +81,6 @@ const Subcategory = () => {
         console.log(error);
       });
   };
-  console.log(modalData);
-  console.log(catCredentials);
 
   const handleModalSubmit = (e) => {
     e.preventDefault();
@@ -88,7 +102,6 @@ const Subcategory = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
         fetchCategories();
         resetForm();
         handleCloseModal(); // Close the modal after successful update
@@ -106,7 +119,6 @@ const Subcategory = () => {
         Itemprice: "",
         Discount: "",
         numberQ: "",
-
         image: "",
       },
     });
@@ -118,7 +130,6 @@ const Subcategory = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
         fetchCategories();
       })
       .catch((error) => {
@@ -127,7 +138,6 @@ const Subcategory = () => {
   };
 
   const handleUpdate = (id) => {
-    // console.log(id);
     fetchCategoryById(id);
   };
 
@@ -155,12 +165,24 @@ const Subcategory = () => {
       },
     }));
   };
+
+  const handleFilterVeg = () => {
+    filterCategories(category, "veg");
+  };
+
+  const handleFilterNonVeg = () => {
+    filterCategories(category, "non veg");
+  };
   return (
     <div className="container">
       <TableContainer className="tableContainer" component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <h1 className="heading">List of Item</h1>
+            <div>
+              <Button onClick={handleFilterVeg}>Filter by Veg</Button>
+              <Button onClick={handleFilterNonVeg}>Filter by Non-Veg</Button>
+            </div>
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell align="right">Itemcategory</TableCell>
@@ -173,7 +195,7 @@ const Subcategory = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {category.map((category) => (
+            {filteredCategories.map((category) => (
               <TableRow key={category._id}>
                 <TableCell component="th" scope="row">
                   {category._id}

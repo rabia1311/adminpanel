@@ -154,6 +154,7 @@ const CustomerList = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <h1 className="heading">List of Customer</h1>
+
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell align="right">name</TableCell>
