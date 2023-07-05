@@ -19,6 +19,8 @@ const Catlist = () => {
   const [modalData, setModalData] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
+  const [filter, setFilter] = useState("");
+  const [filteredCategories, setFilteredCategories] = useState([]);
 
   const [catCredentials, setCatCredentials] = useState({
     category: {
@@ -39,10 +41,30 @@ const Catlist = () => {
       .then((data) => {
         setCategory(data);
         // console.log(data);
+        filterCategories(data, filter);
       })
+
       .catch((error) => {
         console.error("Error:", error);
       });
+  };
+
+  const filterCategories = (categories, filter) => {
+    if (filter === "veg") {
+      const filteredVegCategories = categories.filter(
+        (category) => category.CategoryType === "veg"
+      );
+      setFilteredCategories(filteredVegCategories);
+      console.log(filteredVegCategories); // Log the filtered veg categories to console
+    } else if (filter === "non veg") {
+      const filteredNonVegCategories = categories.filter(
+        (category) => category.CategoryType === "non veg"
+      );
+      setFilteredCategories(filteredNonVegCategories);
+      console.log(filteredNonVegCategories); // Log the filtered non-veg categories to console
+    } else {
+      setFilteredCategories(categories);
+    }
   };
 
   const fetchCategoryById = (id) => {
@@ -146,23 +168,35 @@ const Catlist = () => {
       },
     }));
   };
+  const handleFilterVeg = () => {
+    filterCategories(category, "veg");
+  };
+
+  const handleFilterNonVeg = () => {
+    filterCategories(category, "non veg");
+  };
   return (
     <div className="container">
       <TableContainer className="tableContainer" component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <h1 className="heading">List of Category</h1>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell align="right">Category Type</TableCell>
-              <TableCell align="right">Category Name</TableCell>
-              <TableCell align="right">Description</TableCell>
-              <TableCell align="right">Image</TableCell>
-              <TableCell align="right">Actions</TableCell>
-            </TableRow>
+            <div>
+              <Button onClick={handleFilterVeg}>Filter by Veg</Button>
+              <Button onClick={handleFilterNonVeg}>Filter by Non-Veg</Button>
+            </div>
           </TableHead>
+          <TableRow>
+            <TableCell>ID</TableCell>
+            <TableCell align="right">Category Type</TableCell>
+            <TableCell align="right">Category Name</TableCell>
+            <TableCell align="right">Description</TableCell>
+            <TableCell align="right">Image</TableCell>
+            <TableCell align="right">Actions</TableCell>
+          </TableRow>
+
           <TableBody>
-            {category.map((category) => (
+            {filteredCategories.map((category) => (
               <TableRow key={category._id}>
                 <TableCell component="th" scope="row">
                   {category._id}
