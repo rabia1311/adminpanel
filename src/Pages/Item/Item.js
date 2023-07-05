@@ -4,7 +4,13 @@ import "../Home/home.scss";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Navbar from "../../components/Navbar/Navbar";
 import Subcategory from "../../components/Itemlist/Subcategory";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 const Item = () => {
+  const navigate = useNavigate();
+  const handleBackClick = () => {
+    navigate("/home");
+  };
   return (
     <div className="home">
       <Sidebar />
@@ -13,6 +19,8 @@ const Item = () => {
         <Navbar />
         <div className="Widgets">
           <Subcategory />
+
+          <Button onClick={handleBackClick}>Back</Button>
         </div>
       </div>
     </div>
