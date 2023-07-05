@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "../Widgets/widget.scss";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -22,6 +23,7 @@ const style = {
   p: 12,
 };
 const Widgets = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -50,6 +52,7 @@ const Widgets = () => {
 
   const handleUserSubmit = async (e) => {
     e.preventDefault();
+
     const formData = new FormData();
     formData.append("image", selectedFile);
     formData.append("name", credentials.name);
@@ -72,6 +75,7 @@ const Widgets = () => {
     } else {
       toast.success("Customer added successfully");
     }
+    navigate("/customer");
   };
 
   const handleChange = (event) => {
@@ -92,6 +96,7 @@ const Widgets = () => {
 
   const handleSubCategorySubmit = async (e) => {
     e.preventDefault();
+    navigate("/item");
 
     const formData = new FormData();
     formData.append("Itemcategory", subcredentials.Itemcategory);
@@ -140,6 +145,7 @@ const Widgets = () => {
 
   const handleCatSubmit = async (e) => {
     e.preventDefault();
+    navigate("/cat");
     const formData = new FormData();
     formData.append("CategoryType", catcredentials.CategoryType);
     formData.append("CategoryName", catcredentials.CategoryName);
@@ -186,6 +192,7 @@ const Widgets = () => {
 
   const handleResSubmit = async (e) => {
     e.preventDefault();
+    navigate("/restuarants");
     const formData = new FormData();
     formData.append("image", selectedFile);
     formData.append("Restaurant_name", rescredentials.Restaurant_name);
