@@ -12,10 +12,11 @@ const subcategorySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  Discount: {
+  AddRestaurant: {
     type: String,
     required: true,
   },
+
   numberQ: {
     type: String,
     required: true,
