@@ -13,6 +13,7 @@ import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
+import Addrest from "../Add New/Addrest";
 
 const Rlist = () => {
   const [category, setCategory] = useState([]);
@@ -148,9 +149,13 @@ const Rlist = () => {
     );
     setFilteredCategory(filteredRestaurants);
   };
-
+  const [isAddrestOpen, setIsAddrestOpen] = useState(false);
+  const handleAddNewClick = () => {
+    setIsAddrestOpen(true);
+  };
   return (
     <div className="container">
+      <Addrest />
       <TableContainer className="tableContainer" component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead style={{ display: "flex", alignItems: "center" }}>
@@ -175,7 +180,6 @@ const Rlist = () => {
           <TableRow>
             <TableCell>ID</TableCell>
             <TableCell align="right">Restaurant_name</TableCell>
-            <TableCell align="right">Category</TableCell>
             <TableCell align="right">DeliveryTime</TableCell>
             <TableCell align="right">Description</TableCell>
             <TableCell align="right">Restaurant_Address</TableCell>
@@ -190,7 +194,6 @@ const Rlist = () => {
                   {cat._id}
                 </TableCell>
                 <TableCell align="right">{cat.Restaurant_name}</TableCell>
-                <TableCell align="right">{cat.Category}</TableCell>
                 <TableCell align="right">{cat.DeliveryTime}</TableCell>
                 <TableCell align="right">{cat.Description}</TableCell>
                 <TableCell align="right">{cat.Restaurant_Address}</TableCell>
@@ -244,15 +247,7 @@ const Rlist = () => {
                 fullWidth
                 margin="normal"
               />
-              <TextField
-                label="Category"
-                name="Category"
-                value={catCredentials.Category}
-                onChange={handleInputChange}
-                variant="outlined"
-                fullWidth
-                margin="normal"
-              />
+
               <TextField
                 label="DeliveryTime"
                 name="DeliveryTime"

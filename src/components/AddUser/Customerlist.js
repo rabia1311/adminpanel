@@ -158,6 +158,8 @@ const CustomerList = () => {
 
   return (
     <div className="container">
+      <Button>ADD NEW</Button>
+
       <TableContainer className="tableContainer" component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

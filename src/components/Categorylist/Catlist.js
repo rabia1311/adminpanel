@@ -175,8 +175,14 @@ const Catlist = () => {
   const handleFilterNonVeg = () => {
     filterCategories(category, "non veg");
   };
+
+  const handleAllchange = () => {
+    setFilteredCategories(category);
+  };
   return (
     <div className="container">
+      <Button>ADD NEW</Button>
+
       <TableContainer className="tableContainer" component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -184,6 +190,7 @@ const Catlist = () => {
             <div>
               <Button onClick={handleFilterVeg}>Filter by Veg</Button>
               <Button onClick={handleFilterNonVeg}>Filter by Non-Veg</Button>
+              <Button onClick={handleAllchange}>View All</Button>
             </div>
           </TableHead>
           <TableRow>

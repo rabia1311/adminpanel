@@ -9,7 +9,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 
 import { TextField, Button } from "@mui/material";
-
 const style = {
   position: "absolute",
   top: "50%",
@@ -264,16 +263,6 @@ const Widgets = () => {
               margin="normal"
               required
             />
-            <TextField
-              label="Category"
-              name="Category"
-              value={rescredentials.Category}
-              onChange={handleResChange}
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              required
-            />
 
             <TextField
               label="DeliveryTime"
@@ -395,7 +384,7 @@ const Widgets = () => {
       </Modal>
 
       <div className="widget-card" onClick={handleSubCatOpen}>
-        ADD SUBCATEGORY
+        ADD FOOD ITEM
       </div>
       <Modal
         open={subcatopen}
