@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Catnew from "../Add New/Catnew";
 const Catlist = () => {
   const [category, setCategory] = useState([]);
   const [modalData, setModalData] = useState(null);
@@ -181,8 +181,7 @@ const Catlist = () => {
   };
   return (
     <div className="container">
-      <Button>ADD NEW</Button>
-
+      <Catnew />
       <TableContainer className="tableContainer" component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
