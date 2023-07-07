@@ -14,6 +14,8 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "../Add New/Additem";
+import Additem from "../Add New/Additem";
 
 const Subcategory = () => {
   const [category, setCategory] = useState([]);
@@ -179,8 +181,7 @@ const Subcategory = () => {
   };
   return (
     <div className="container">
-      <Button>ADD NEW</Button>
-
+      <Additem />
       <TableContainer className="tableContainer" component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

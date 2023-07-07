@@ -418,6 +418,16 @@ const Widgets = () => {
               required
             />
             <TextField
+              label="Select Category"
+              variant="outlined"
+              name="Itemname"
+              value={subcredentials.Itemname}
+              onChange={handleSubChange}
+              fullWidth
+              margin="normal"
+              required
+            />
+            <TextField
               label="Item Price"
               variant="outlined"
               name="Itemprice"
