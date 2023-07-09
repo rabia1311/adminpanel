@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import Addrest from "../Add New/Addrest";
+import axios from "axios";
 
 const Rlist = () => {
   const [category, setCategory] = useState([]);
@@ -153,6 +154,26 @@ const Rlist = () => {
   const handleAddNewClick = () => {
     setIsAddrestOpen(true);
   };
+
+  const handleRestaurantClick = (restaurantName) => {
+    axios
+      .get("http://localhost:3001/admin/subcategory", {
+        params: {
+          Restaurantname: restaurantName,
+        },
+      })
+      .then((response) => {
+        const { data } = response;
+        const subcategories = data.filter(
+          (subcat) => subcat.Restaurantname === restaurantName
+        );
+        console.log("Subcategory details:", subcategories);
+        // Perform any actions with the filtered subcategory details
+      })
+      .catch((error) => {
+        console.log("Error fetching subcategory details:", error);
+      });
+  };
   return (
     <div className="container">
       <Addrest />
@@ -193,7 +214,12 @@ const Rlist = () => {
                 <TableCell component="th" scope="row">
                   {cat._id}
                 </TableCell>
-                <TableCell align="right">{cat.Restaurant_name}</TableCell>
+                <TableCell
+                  align="right"
+                  onClick={() => handleRestaurantClick(cat.Restaurant_name)}
+                >
+                  {cat.Restaurant_name}
+                </TableCell>
                 <TableCell align="right">{cat.DeliveryTime}</TableCell>
                 <TableCell align="right">{cat.Description}</TableCell>
                 <TableCell align="right">{cat.Restaurant_Address}</TableCell>
