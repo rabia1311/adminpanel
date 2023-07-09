@@ -1,12 +1,14 @@
 import React from "react";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "../Widgets/widget.scss";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { TextField, Button } from "@mui/material";
 const style = {
@@ -22,6 +24,20 @@ const style = {
   p: 12,
 };
 const Widgets = () => {
+  const [restaurantList, setRestaurantList] = useState([]);
+
+  // Fetch restaurant names from the API endpoint
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/admin/restaurant")
+      .then((response) => {
+        const { data } = response;
+        setRestaurantList(data);
+      })
+      .catch((error) => {
+        console.log("Error fetching restaurant names:", error);
+      });
+  }, []);
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -419,17 +435,28 @@ const Widgets = () => {
               margin="normal"
               required
             />
-            <TextField
-              label="Restaurantname"
-              variant="outlined"
-              name="Restaurantname"
-              value={subcredentials.Restaurantname}
-              onChange={handleSubChange}
-              fullWidth
-              margin="normal"
-              required
-            />
 
+            <FormControl variant="outlined" fullWidth margin="normal" required>
+              <InputLabel id="restaurantname-label">Restaurant Name</InputLabel>
+              <Select
+                labelId="restaurantname-label"
+                id="restaurantname-select"
+                name="Restaurantname"
+                value={subcredentials.Restaurantname}
+                onChange={handleSubChange}
+                label="Restaurant Name"
+              >
+                <MenuItem value="">Select Restaurant</MenuItem>
+                {restaurantList.map((restaurant) => (
+                  <MenuItem
+                    key={restaurant._id}
+                    value={restaurant.Restaurant_name}
+                  >
+                    {restaurant.Restaurant_name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <TextField
               label="Item Price"
               variant="outlined"
