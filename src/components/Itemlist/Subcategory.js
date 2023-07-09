@@ -29,8 +29,9 @@ const Subcategory = () => {
     category: {
       Itemcategory: "",
       Itemname: "",
+      Restaurantname: "",
       Itemprice: "",
-      Discount: "",
+
       numberQ: "",
       image: "",
     },
@@ -93,8 +94,9 @@ const Subcategory = () => {
     formData.append("id", catCredentials.category._id);
     formData.append("Itemcategory", catCredentials.category.Itemcategory);
     formData.append("Itemname", catCredentials.category.Itemname);
+    formData.append("Restaurantname", catCredentials.category.Restaurantname);
     formData.append("Itemprice", catCredentials.category.Itemprice);
-    formData.append("Discount", catCredentials.category.Discount);
+
     formData.append("numberQ", catCredentials.category.numberQ);
     formData.append("image", catCredentials.category.image);
 
@@ -118,8 +120,9 @@ const Subcategory = () => {
       category: {
         Itemcategory: "",
         Itemname: "",
+        Restaurantname: "",
         Itemprice: "",
-        Discount: "",
+
         numberQ: "",
         image: "",
       },
@@ -195,8 +198,9 @@ const Subcategory = () => {
               <TableCell>ID</TableCell>
               <TableCell align="right">Itemcategory</TableCell>
               <TableCell align="right">Itemname</TableCell>
+              <TableCell align="right">Restaurantname</TableCell>
               <TableCell align="right">Itemprice</TableCell>
-              <TableCell align="right">Discount</TableCell>
+
               <TableCell align="right">numberQ</TableCell>
               <TableCell align="right">Image</TableCell>
               <TableCell align="right">Actions</TableCell>
@@ -210,8 +214,9 @@ const Subcategory = () => {
                 </TableCell>
                 <TableCell align="right">{category.Itemcategory}</TableCell>
                 <TableCell align="right">{category.Itemname}</TableCell>
+                <TableCell align="right">{category.Restaurantname}</TableCell>
                 <TableCell align="right">{category.Itemprice}</TableCell>
-                <TableCell align="right">{category.Discount}</TableCell>
+
                 <TableCell align="right">{category.numberQ}</TableCell>
                 <TableCell align="right">
                   <img
@@ -279,21 +284,20 @@ const Subcategory = () => {
                 required
               />
               <TextField
-                label="Itemprice"
-                name="Itemprice"
-                value={catCredentials.category.Itemprice}
+                label="Restaurantname"
+                name="Restaurantname"
+                value={catCredentials.category.Restaurantname}
                 onChange={handleInputChange}
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                multiline
-                rows={1}
                 required
               />
+
               <TextField
-                label="Discount"
-                name="Discount"
-                value={catCredentials.category.Discount}
+                label="Itemprice"
+                name="Itemprice"
+                value={catCredentials.category.Itemprice}
                 onChange={handleInputChange}
                 variant="outlined"
                 fullWidth

@@ -5,16 +5,17 @@ const createSubcategory = async (req, res) => {
 
     const newSubcategory = new Subcategory({
       ...req.body,
+
       image,
     });
 
-    // Save the new restaurant to the database
+    // Save the new subcategory to the database
     const savedSubcategory = await newSubcategory.save();
 
     // Send a response back to the frontend indicating the success of the operation
     res.status(201).json({
       success: true,
-      message: "The subcategory item  added successfully.",
+      message: "The subcategory item added successfully.",
       data: savedSubcategory,
     });
   } catch (error) {
@@ -56,7 +57,14 @@ const deleteRestaurant = async (req, res) => {
 
 const updateSubcategory = async (req, res, next) => {
   const subcategoryId = req.params.id;
-  const { Itemcategory, Itemname, Itemprice, Discount, numberQ } = req.body;
+  const {
+    Itemcategory,
+    Itemname,
+    Restaurantname,
+    Itemprice,
+    Discount,
+    numberQ,
+  } = req.body;
 
   Subcategory.findById(subcategoryId)
     .then((subcategory) => {
@@ -66,6 +74,7 @@ const updateSubcategory = async (req, res, next) => {
 
       subcategory.Itemcategory = Itemcategory;
       subcategory.Itemname = Itemname;
+      subcategory.Restaurantname = Restaurantname;
       subcategory.Itemprice = Itemprice;
       subcategory.Discount = Discount;
       subcategory.numberQ = numberQ;

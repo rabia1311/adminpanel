@@ -14,8 +14,8 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 500,
-  height: 500,
+  width: 600,
+  height: 600,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -87,8 +87,9 @@ const Widgets = () => {
   const [subcredentials, setSubcredentials] = useState({
     Itemcategory: "",
     Itemname: "",
+    Restaurantname: "",
     Itemprice: "",
-    Discount: "",
+
     numberQ: "",
     image: "",
   });
@@ -100,8 +101,9 @@ const Widgets = () => {
     const formData = new FormData();
     formData.append("Itemcategory", subcredentials.Itemcategory);
     formData.append("Itemname", subcredentials.Itemname);
+    formData.append("Restaurantname", subcredentials.Restaurantname);
     formData.append("Itemprice", subcredentials.Itemprice);
-    formData.append("Discount", subcredentials.Discount);
+
     formData.append("numberQ", subcredentials.numberQ);
     formData.append("image", selectedFile);
 
@@ -418,15 +420,16 @@ const Widgets = () => {
               required
             />
             <TextField
-              label="Select Category"
+              label="Restaurantname"
               variant="outlined"
-              name="Itemname"
-              value={subcredentials.Itemname}
+              name="Restaurantname"
+              value={subcredentials.Restaurantname}
               onChange={handleSubChange}
               fullWidth
               margin="normal"
               required
             />
+
             <TextField
               label="Item Price"
               variant="outlined"
@@ -437,16 +440,7 @@ const Widgets = () => {
               margin="normal"
               required
             />
-            <TextField
-              label="Discount %"
-              name="Discount"
-              value={subcredentials.Discount}
-              onChange={handleSubChange}
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              required
-            />
+
             <TextField
               label="Number of Item Quantity"
               name="numberQ"

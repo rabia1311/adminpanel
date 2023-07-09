@@ -8,11 +8,12 @@ const subcategorySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  Itemprice: {
+  Restaurantname: {
     type: String,
     required: true,
   },
-  AddRestaurant: {
+
+  Itemprice: {
     type: String,
     required: true,
   },
