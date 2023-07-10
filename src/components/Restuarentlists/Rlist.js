@@ -15,8 +15,10 @@ import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import Addrest from "../Add New/Addrest";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Rlist = () => {
+  const navigate = useNavigate();
   const [category, setCategory] = useState([]);
   const [filteredCategory, setFilteredCategory] = useState([]);
   const [modalData, setModalData] = useState(null);
@@ -168,7 +170,7 @@ const Rlist = () => {
           (subcat) => subcat.Restaurantname === restaurantName
         );
         console.log("Subcategory details:", subcategories);
-        // Perform any actions with the filtered subcategory details
+        navigate("/resmenu", { state: { subcategories } });
       })
       .catch((error) => {
         console.log("Error fetching subcategory details:", error);

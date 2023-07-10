@@ -1,0 +1,15 @@
+.subcategory-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-gap: 10px;
+  }
+  
+  .subcategory-item {
+    border: 2px solid #ccc;
+    padding: 15px;
+    width: 70%;
+    height: 90%;
+    margin-left: 90px;
+  }
+  
+  

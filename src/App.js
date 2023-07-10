@@ -8,6 +8,7 @@ import Order from "./Pages/Orders/Order";
 import Category from "../src/Pages/Category/Category";
 import Item from "./Pages/Item/Item";
 import AddCustomer from "./Pages/Customer/AddCustomer";
+import Resmenu from "./Pages/Menu/Resmenu";
 function App() {
   return (
     <div className="App">
@@ -20,6 +21,7 @@ function App() {
           <Route path="/order" element={<Order />} />
           <Route path="/cat" element={<Category />} />
           <Route path="/item" element={<Item />} />
+          <Route path="/resmenu" element={<Resmenu />} />
           <Route path="/customer" element={<AddCustomer />} />
         </Routes>
       </BrowserRouter>
