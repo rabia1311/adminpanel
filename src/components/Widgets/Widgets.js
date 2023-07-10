@@ -26,6 +26,8 @@ const style = {
 const Widgets = () => {
   const [restaurantList, setRestaurantList] = useState([]);
 
+  const options = ["veg", "non veg"];
+
   // Fetch restaurant names from the API endpoint
   useEffect(() => {
     axios
@@ -147,6 +149,7 @@ const Widgets = () => {
       ...subcredentials,
       [event.target.name]: event.target.value,
     });
+    setSelectedCategory(event.target.value);
   };
   console.log(subcredentials);
 
@@ -255,6 +258,19 @@ const Widgets = () => {
   };
   console.log(selectedFile);
 
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  useEffect(() => {
+    fetch("http://localhost:3001/admin/category")
+      .then((response) => response.json())
+      .then((data) => {
+        setCategories(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching categories", error);
+      });
+  });
+
   return (
     <div className="widget-container">
       <div className="widget-card" onClick={handleOpen}>
@@ -358,7 +374,14 @@ const Widgets = () => {
                 fullWidth
                 margin="normal"
                 required
-              />
+                select // Use select property for dropdown functionality
+              >
+                {options.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Box>
             <TextField
               label="Category Name"
@@ -416,25 +439,22 @@ const Widgets = () => {
           </Typography>
           <form onSubmit={handleSubCategorySubmit}>
             <TextField
-              label="Item Category"
+              label="Select Category"
               name="Itemcategory"
-              value={subcredentials.Itemcategory}
+              value={selectedCategory}
               onChange={handleSubChange}
               variant="outlined"
               fullWidth
               margin="normal"
               required
-            />
-            <TextField
-              label="Item Name"
-              variant="outlined"
-              name="Itemname"
-              value={subcredentials.Itemname}
-              onChange={handleSubChange}
-              fullWidth
-              margin="normal"
-              required
-            />
+              select
+            >
+              {categories.map((category) => (
+                <MenuItem key={category._id} value={category.CategoryName}>
+                  {category.CategoryName}
+                </MenuItem>
+              ))}
+            </TextField>
 
             <FormControl variant="outlined" fullWidth margin="normal" required>
               <InputLabel id="restaurantname-label">Restaurant Name</InputLabel>
@@ -457,6 +477,16 @@ const Widgets = () => {
                 ))}
               </Select>
             </FormControl>
+            <TextField
+              label="Item Name"
+              variant="outlined"
+              name="Itemname"
+              value={subcredentials.Itemname}
+              onChange={handleSubChange}
+              fullWidth
+              margin="normal"
+              required
+            />
             <TextField
               label="Item Price"
               variant="outlined"
