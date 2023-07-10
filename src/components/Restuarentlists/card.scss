@@ -1,0 +1,44 @@
+.res-container {
+    
+    flex-wrap: wrap;
+  }
+  
+  .carddesign {
+    width: 321px;
+    height: 400px;
+    margin: 16px;
+    
+    justify-content: space-between;
+  }
+  
+  .cardcontent {
+    width: 90%;
+    height: 80%;
+
+  }
+  
+  .restaurant-name {
+    margin-bottom: 8px;
+    cursor: pointer;
+  }
+  
+  .paragraph {
+    margin-bottom: 8px;
+  }
+  
+  .image-thumbnail-card {
+    width: 79%;
+    background-repeat: no-repeat;
+    height: auto;
+  }
+  
+  .card-actions {
+    display: flex;
+  }
+  
+  
+  
+  
+  
+  
+  

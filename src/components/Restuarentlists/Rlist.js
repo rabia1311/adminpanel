@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
-import "../Restuarentlists/rlist.scss";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import Addrest from "../Add New/Addrest";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "../Restuarentlists/card.scss";
+import {
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  TextField,
+} from "@mui/material";
 
 const Rlist = () => {
   const navigate = useNavigate();
@@ -25,7 +30,7 @@ const Rlist = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [catCredentials, setCatCredentials] = useState({
     Restaurant_name: "",
-    Category: "",
+
     DeliveryTime: "",
     Description: "",
     Restaurant_Address: "",
@@ -72,7 +77,6 @@ const Rlist = () => {
     const formData = new FormData();
     formData.append("id", catCredentials._id);
     formData.append("Restaurant_name", catCredentials.Restaurant_name);
-    formData.append("Category", catCredentials.Category);
     formData.append("DeliveryTime", catCredentials.DeliveryTime);
     formData.append("Description", catCredentials.Description);
 
@@ -97,7 +101,6 @@ const Rlist = () => {
   const resetForm = () => {
     setCatCredentials({
       Restaurant_name: "",
-      Category: "",
       DeliveryTime: "",
       Description: "",
       Restaurant_Address: "",
@@ -177,70 +180,51 @@ const Rlist = () => {
       });
   };
   return (
-    <div className="container">
+    <div>
       <Addrest />
-      <TableContainer className="tableContainer" component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead style={{ display: "flex", alignItems: "center" }}>
-            <h1 className="heading" style={{ marginRight: "16px" }}>
-              List of Restaurants
-            </h1>
-            <TextField
-              label="Search Restaurant"
-              value={searchQuery}
-              onChange={handleSearch}
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              InputProps={{
-                startAdornment: (
-                  <SearchIcon color="action" sx={{ marginRight: "8px" }} />
-                ),
-              }}
-              style={{ width: "200px", marginRight: "16px" }}
-            />
-          </TableHead>
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell align="right">Restaurant_name</TableCell>
-            <TableCell align="right">DeliveryTime</TableCell>
-            <TableCell align="right">Description</TableCell>
-            <TableCell align="right">Restaurant_Address</TableCell>
-            <TableCell align="right">Image</TableCell>
-            <TableCell align="right">Actions</TableCell>
-          </TableRow>
-
-          <TableBody>
-            {filteredCategory.map((cat) => (
-              <TableRow key={cat._id}>
-                <TableCell component="th" scope="row">
-                  {cat._id}
-                </TableCell>
-                <TableCell
-                  align="right"
+      <div className="res-container">
+        <div className="cardContainer-res">
+          <h1 className="heading-tag">List of Restaurants</h1>
+          <TextField
+            label="Search Restaurant"
+            value={searchQuery}
+            onChange={handleSearch}
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            InputProps={{
+              startAdornment: (
+                <SearchIcon color="action" sx={{ marginRight: "8px" }} />
+              ),
+            }}
+            style={{ width: "200px", marginBottom: "16px" }}
+          />
+          {filteredCategory.map((cat) => (
+            <Card key={cat._id} className="carddesign">
+              <CardContent className="cardcontent">
+                <h2
+                  className="restaurant-name"
                   onClick={() => handleRestaurantClick(cat.Restaurant_name)}
                 >
                   {cat.Restaurant_name}
-                </TableCell>
-                <TableCell align="right">{cat.DeliveryTime}</TableCell>
-                <TableCell align="right">{cat.Description}</TableCell>
-                <TableCell align="right">{cat.Restaurant_Address}</TableCell>
-                <TableCell align="right">
-                  <img
-                    src={`http://localhost:3001/uploads/${cat.image}`}
-                    alt="Category"
-                    className="image-thumbnail"
-                  />
-                </TableCell>
-                <TableCell align="right">
-                  <Button onClick={() => handleUpdate(cat._id)}>Edit</Button>
-                  <Button onClick={() => handleDelete(cat._id)}>Delete</Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                </h2>
+                <p className="paragraph">Delivery Time: {cat.DeliveryTime}</p>
+                <p className="paragraph">Description: {cat.Description}</p>
+                <p className="paragraph">Address: {cat.Restaurant_Address}</p>
+                <img
+                  src={`http://localhost:3001/uploads/${cat.image}`}
+                  alt="Category"
+                  className="image-thumbnail-card"
+                />
+              </CardContent>
+              <CardActions className="card-actions">
+                <Button onClick={() => handleUpdate(cat._id)}>Edit</Button>
+                <Button onClick={() => handleDelete(cat._id)}>Delete</Button>
+              </CardActions>
+            </Card>
+          ))}
+        </div>
+      </div>
 
       <Modal
         open={modalOpen}
