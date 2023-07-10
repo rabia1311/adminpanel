@@ -72,7 +72,7 @@ const updateRestaurant = async (req, res, next) => {
   const restaurantId = req.params.id;
   const {
     Restaurant_name,
-    Category,
+
     DeliveryTime,
     Description,
     Restaurant_Address,
@@ -90,7 +90,6 @@ const updateRestaurant = async (req, res, next) => {
       }
 
       restaurant.Restaurant_name = Restaurant_name;
-      restaurant.Category = Category;
       restaurant.DeliveryTime = DeliveryTime;
       restaurant.Description = Description;
       restaurant.Restaurant_Address = Restaurant_Address;
