@@ -7,7 +7,7 @@ const RestaurantRouter = require("./Routes/Addrestuarant");
 const CategoryRouter = require("./Routes/AddCategory");
 const SubcategoryRouter = require("./Routes/AddSubcategory");
 const CustomerRouter = require("./Routes/Addcustomer");
-
+const BrandRouter = require("./Routes/AddBrand");
 const app = express();
 const port = 3001;
 
@@ -16,6 +16,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/category", express.static("category"));
 app.use("/subcategoryimg", express.static("subcategoryimg"));
 app.use("/customerImg", express.static("customerImg"));
+app.use("/brandimg", express.static("brandimg"));
 
 const mongoDB = require("./db");
 const { collection } = require("./Models/User");
@@ -36,6 +37,7 @@ app.use("/admin", RestaurantRouter);
 app.use("/admin", CategoryRouter);
 app.use("/admin", SubcategoryRouter);
 app.use("/admin", CustomerRouter);
+app.use("/admin", BrandRouter);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

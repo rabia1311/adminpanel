@@ -43,7 +43,7 @@ const Rlist = () => {
   }, []);
 
   const fetchCategories = () => {
-    fetch("http://localhost:3001/admin/restaurant")
+    fetch("http://localhost:8000/admin/restaurant")
       .then((response) => response.json())
       .then((data) => {
         setCategory(data);
@@ -55,7 +55,7 @@ const Rlist = () => {
   };
 
   const fetchCategoryById = (id) => {
-    fetch(`http://localhost:3001/admin/restaurant/${id}`, {
+    fetch(`http://localhost:8000/admin/restaurant/${id}`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -83,7 +83,7 @@ const Rlist = () => {
     formData.append("Restaurant_Address", catCredentials.Restaurant_Address);
     formData.append("image", catCredentials.image);
 
-    fetch(`http://localhost:3001/admin/restaurant/${id}`, {
+    fetch(`http://localhost:8000/admin/restaurant/${id}`, {
       method: "PUT",
       body: formData,
     })
@@ -109,7 +109,7 @@ const Rlist = () => {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:3001/admin/restaurant/${id}`, {
+    fetch(`http://localhost:8000/admin/restaurant/${id}`, {
       method: "DELETE",
     })
       .then((response) => response.json())
@@ -162,7 +162,7 @@ const Rlist = () => {
 
   const handleRestaurantClick = (restaurantName) => {
     axios
-      .get("http://localhost:3001/admin/subcategory", {
+      .get("http://localhost:8000/admin/subcategory", {
         params: {
           Restaurantname: restaurantName,
         },
@@ -212,7 +212,7 @@ const Rlist = () => {
                 <p className="paragraph">Description: {cat.Description}</p>
                 <p className="paragraph">Address: {cat.Restaurant_Address}</p>
                 <img
-                  src={`http://localhost:3001/uploads/${cat.image}`}
+                  src={`http://localhost:8000/uploads/${cat.image}`}
                   alt="Category"
                   className="image-thumbnail-card"
                 />

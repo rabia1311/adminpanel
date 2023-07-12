@@ -57,6 +57,48 @@ const Widgets = () => {
   const handleUserOpen = () => setUseropen(true);
   const handleUserClose = () => setUseropen(false);
 
+  const [brandopen, setBrandopen] = React.useState(false);
+  const handleBrandOpen = () => setBrandopen(true);
+  const handleBrandClose = () => setBrandopen(false);
+
+  //brand
+
+  const [bcredentials, setBcredentials] = useState({
+    brandname: "",
+    time: "",
+    image: "",
+  });
+
+  const handleBrandSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("image", selectedFile);
+    formData.append("brandname", bcredentials.brandname);
+    formData.append("time", bcredentials.time);
+
+    const response = await fetch("http://localhost:8000/admin/brand", {
+      method: "POST",
+      body: formData,
+    });
+    const json = await response.json(); // Await the response.json() method
+
+    console.log(json);
+    if (!json.success) {
+      toast.error("Enter valid credentials");
+    } else {
+      toast.success("Brand added successfully");
+    }
+    navigate("/brandpage");
+  };
+
+  const handleBrandChange = (event) => {
+    setBcredentials({
+      ...bcredentials,
+      [event.target.name]: event.target.value,
+    });
+  };
+  console.log(bcredentials);
+
   //user
   const [credentials, setCredentials] = useState({
     name: "",
@@ -173,7 +215,7 @@ const Widgets = () => {
     formData.append("image", selectedFile);
 
     try {
-      const response = await fetch("http://localhost:3001/admin/category", {
+      const response = await fetch("http://localhost:8000/admin/category", {
         method: "POST",
         body: formData,
       });
@@ -261,7 +303,7 @@ const Widgets = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   useEffect(() => {
-    fetch("http://localhost:3001/admin/category")
+    fetch("http://localhost:8000/admin/category")
       .then((response) => response.json())
       .then((data) => {
         setCategories(data);
@@ -410,6 +452,65 @@ const Widgets = () => {
               label="Logo"
               name="image"
               value={rescredentials.image}
+              onChange={handleFileChange} //changes made
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              type="file"
+            />
+            <Button variant="contained" type="submit">
+              Submit
+            </Button>
+          </form>
+          <ToastContainer />
+        </Box>
+      </Modal>
+
+      <div className="widget-card" onClick={handleBrandOpen}>
+        ADD BRAND
+      </div>
+      <Modal
+        open={brandopen}
+        onClose={handleBrandClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Add New Brand
+          </Typography>
+          <form onSubmit={handleBrandSubmit}>
+            <Typography variant="subtitle1" component="div" sx={{ mt: 2 }}>
+              Brand Name
+            </Typography>
+
+            <TextField
+              label="Brand Name"
+              name="brandname"
+              value={bcredentials.brandname}
+              onChange={handleBrandChange}
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              required
+            />
+            <TextField
+              label="time"
+              name="time"
+              value={bcredentials.time}
+              onChange={handleBrandChange}
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              multiline
+              rows={1}
+              required
+            />
+
+            <TextField
+              label="Logo"
+              name="image"
+              value={bcredentials.image}
               onChange={handleFileChange} //changes made
               variant="outlined"
               fullWidth

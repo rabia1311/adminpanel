@@ -42,7 +42,7 @@ const Subcategory = () => {
   }, []);
 
   const fetchCategories = () => {
-    fetch("http://localhost:3001/admin/subcategory")
+    fetch("http://localhost:8000/admin/subcategory")
       .then((response) => response.json())
       .then((data) => {
         setCategory(data);
@@ -71,7 +71,7 @@ const Subcategory = () => {
   };
 
   const fetchCategoryById = (id) => {
-    fetch(`http://localhost:3001/admin/subcategory/${id}`, {
+    fetch(`http://localhost:8000/admin/subcategory/${id}`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -100,7 +100,7 @@ const Subcategory = () => {
     formData.append("numberQ", catCredentials.category.numberQ);
     formData.append("image", catCredentials.category.image);
 
-    fetch(`http://localhost:3001/admin/subcategory/${id}`, {
+    fetch(`http://localhost:8000/admin/subcategory/${id}`, {
       method: "PUT",
       body: formData,
     })
@@ -130,7 +130,7 @@ const Subcategory = () => {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:3001/admin/subcategory/${id}`, {
+    fetch(`http://localhost:8000/admin/subcategory/${id}`, {
       method: "DELETE",
     })
       .then((response) => response.json())
@@ -220,7 +220,7 @@ const Subcategory = () => {
                 <TableCell align="right">{category.numberQ}</TableCell>
                 <TableCell align="right">
                   <img
-                    src={`http://localhost:3001/subcategoryimg/${category.image}`}
+                    src={`http://localhost:8000/subcategoryimg/${category.image}`}
                     alt="Category"
                     className="image-thumbnail"
                   />

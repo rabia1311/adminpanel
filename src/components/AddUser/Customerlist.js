@@ -37,7 +37,7 @@ const CustomerList = () => {
   }, []);
 
   const fetchCategories = () => {
-    fetch("http://localhost:3001/admin/customer")
+    fetch("http://localhost:8000/admin/customer")
       .then((response) => response.json())
       .then((data) => {
         setCategory(data);
@@ -49,7 +49,7 @@ const CustomerList = () => {
   };
 
   const fetchCategoryById = (id) => {
-    fetch(`http://localhost:3001/admin/customer/${id}`, {
+    fetch(`http://localhost:8000/admin/customer/${id}`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -77,7 +77,7 @@ const CustomerList = () => {
 
     formData.append("image", catCredentials.category.image);
 
-    fetch(`http://localhost:3001/admin/customer/${id}`, {
+    fetch(`http://localhost:8000/admin/customer/${id}`, {
       method: "PUT",
       body: formData,
     })
@@ -105,7 +105,7 @@ const CustomerList = () => {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:3001/admin/customer/${id}`, {
+    fetch(`http://localhost:8000/admin/customer/${id}`, {
       method: "DELETE",
     })
       .then((response) => response.json())
@@ -200,7 +200,7 @@ const CustomerList = () => {
                 <TableCell align="right">{category.phone}</TableCell>
                 <TableCell align="right">
                   <img
-                    src={`http://localhost:3001/customerImg/${category.image}`}
+                    src={`http://localhost:8000/customerImg/${category.image}`}
                     alt="Category"
                     className="image-thumbnail"
                   />
