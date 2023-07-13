@@ -31,7 +31,7 @@ const Widgets = () => {
   // Fetch restaurant names from the API endpoint
   useEffect(() => {
     axios
-      .get("http://localhost:3001/admin/restaurant")
+      .get("http://localhost:8000/admin/restaurant")
       .then((response) => {
         const { data } = response;
         setRestaurantList(data);
@@ -120,7 +120,7 @@ const Widgets = () => {
     formData.append("phone", credentials.phone);
     formData.append("address", credentials.address);
 
-    const response = await fetch("http://localhost:3001/admin/customer", {
+    const response = await fetch("http://localhost:8000/admin/customer", {
       method: "POST",
 
       body: formData,
@@ -168,7 +168,7 @@ const Widgets = () => {
     formData.append("image", selectedFile);
 
     try {
-      const response = await fetch("http://localhost:3001/admin/subcategory", {
+      const response = await fetch("http://localhost:8000/admin/subcategory", {
         method: "POST",
         body: formData,
       });
@@ -264,7 +264,7 @@ const Widgets = () => {
     formData.append("Restaurant_Address", rescredentials.Restaurant_Address);
 
     try {
-      const response = await fetch("http://localhost:3001/admin/restaurant", {
+      const response = await fetch("http://localhost:8000/admin/restaurant", {
         method: "POST",
 
         body: formData,
